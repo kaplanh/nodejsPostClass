@@ -5,21 +5,14 @@
 
 
 
+//?yazdigimiz kodlarin ciktisi icinasagidaki kodlardan birini kullanabiliriz 3 de ayni görevi yapar
+// *node index.js
+//* node index
+// *node .
 
-function orderPizza(type, ingredients, callback) {
-    console.log("Pizza ordered...");
-    console.log("Pizza is for preparation");
-    setTimeout(function () {
-        let msg = `Your ${type} ${ingredients} Pizza is ready! The total bill is
-$10`;
-        callback(msg);
-    }, 3000);
-}
-orderPizza("Vegeterian", "Cheese", function (message) {
-    console.log(message);
-});
+// ? burda her degidsiklikten sonra tekar bu kodu yazmamak icin nodemon modulunü yükleyip asagidaki gibi  dosya ismini yaziyoruz
 
-answer
-//*  Pizza ordered
-//*  Pizza is for preparation
-//*  Your Vegeterian Cheese Pizza is ready! The total bill is $10 
+// *nodemon index.js
+// *nodemon .
+
+//?  nodemon ortamindan cikmak icin ctrl+c kullanilir
