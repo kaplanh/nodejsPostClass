@@ -15,7 +15,7 @@ const exampleObject = {
 console.log( exampleObject.propertyName )
 console.log( exampleObject.methodName() )
 
-/* ------------------------------------------------------- */
+/* ------------------------------------------------------- *
 
 const Car = {
 
@@ -34,14 +34,14 @@ const Car = {
     }
 }
 
-console.log( Car.brand )
-console.log( Car.colors )
-console.log( Car.colors[0] )
-console.log( Car.details )
-console.log( Car.details.engineSize )
-console.log( Car.startEngine() )
+// console.log( Car.brand )
+// console.log( Car.colors )
+// console.log( Car.colors[0] )
+// console.log( Car.details )
+// console.log( Car.details.engineSize )
+// console.log( Car.startEngine() )
 
-console.log( Car['brand'] )
+console.log( Car[ali] )
 console.log( Car.details['engineSize'] )
 console.log( Car['details']['engineSize'] )
 console.log( Car['startEngine']() )
@@ -62,19 +62,19 @@ const Car = {
         engineSize: 4900
     },
     startEngine: function () {
-        return 'Motor çalıştı'
+        return 'Motor çalişti'
     },
     getDetails: function () {
 
         // return this
         // return this.brand + ' ' + this.model + ' ' + this.year
-        return this.startEngine()
+        // return this.startEngine()
 
     },
     arrowFunc: () => {
     //? Arrow functions is globalScope. (Not working this keyword in here)
-        // return this
-        return this.brand
+        return this
+        // return this.brand
     }
 }
 
@@ -85,6 +85,10 @@ console.log( Car.arrowFunc() )
 //? ARRAY DESTRUCTURING
 
 const testArray = [ 'value0', 'value1', 'value2', 'value3' ]
+const arr1 = testArray;//true
+const arr2 = [...testArray]
+console.log(arr2);
+console.log(arr2===testArray)//false
 
 // const var0 = testArray[0]
 // const var1 = testArray[1]
@@ -117,7 +121,7 @@ const Car = {
         engineSize: 4900
     },
     startEngine: function () {
-        return 'Motor çalıştı'
+        return 'Motor çalişti'
     }
 }
 
@@ -162,7 +166,7 @@ console.log(arr3)
 //     this.property = "value";
 // };
 
-/* ------------------------------------------------------- *
+/* ------------------------------------------------------- */
 //? "NEW" KEYWORD
 
 const CarConstructor = function (brand, model, year = 2011) {
