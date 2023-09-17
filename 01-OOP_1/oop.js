@@ -191,6 +191,7 @@ const Car = {
         return "Motor çalişti";
     },
 };
+
 // *Object to JSON:
 // const json = JSON.stringify(Car);
 // console.log ( typeof json, json )
@@ -200,15 +201,15 @@ const Car = {
 // console.log(typeof newObj3, newObj3)
 
 //* Object to Array:
-const arr = [ ...Car ] //hata json verileri iterable degil
-// const arr = Object.entries(Car)
+// const arr = [ ...Car ] //hata json verileri iterable degil
+const arr = Object.entries(Car)
 console.log( arr )
-// const arr2 = Object.values(Car)
-// console.log(arr2)
-// const arr3 = Object.keys(Car)
-// console.log(arr3)
+const arr2 = Object.values(Car)
+console.log(arr2)
+const arr3 = Object.keys(Car)
+console.log(arr3)
 
-/* -------------------------------------------------------
+/* -------------------------------------------------------/
     Object Constructor
 ------------------------------------------------------- */
 
