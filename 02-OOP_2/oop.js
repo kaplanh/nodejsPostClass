@@ -459,7 +459,7 @@ console.log(mag1.getSummaryParent()) //? parent tan gelen method dolaylı yoldan
 
 
 
-/* ------------------------------------------------------- */
+/* ------------------------------------------------------- *
 //? PUBLIC,PRIVATE,PROTECTED propertyler
 
 //? JS PUBLIC: Genel erişime açık.
@@ -533,4 +533,109 @@ console.log ( ford )
 console.log ( ford.getDetails() )
 // console.log ( ford.#privateProp ) // NO ACCESS
 
-/* ------------------------------------------------------- */
+/* ------------------------------------------------------- *
+
+//? GETTER & SETTER METHODS: Görevi veri getirme (getter) ve veri güncelleme (setter) olan metodlardır.
+//? "STATIC" KEYWORD: Class'dan direkt erişim. (Instance erişemez.)
+
+class Car {
+    isRunning = false;
+    #price; //# sayesinde private oldu yani bu class disina gizlenmis property
+    // getter ve setter methodlari bu tip özel property leri bir metod icinde ulasmaya ve  güncellemeye yarar
+
+    constructor(brand, model, year) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+    }
+
+    runEngine() {
+        this.isRunning = true;
+        console.log("Motor Çalıştırıldı");
+        return this.isRunning;
+    }
+
+    //*setter metodu
+    //veriyi güncelleme methodu  (buraya ben yeni parametreler gönderebilir baska bir kod bloguda yazabilirim)
+    //setter methodnun basina set yazilir
+    //icine bir newPrice gibi parametre yaziyoruz
+    //this.#price =newPrice yaziyoruz
+    //artik ford.Price(5000) diyerek güncelleyebiliriz ama biz methodun basina set yazarak esitlik kullanabiliyoruz ford.setPrice = 5000
+    //bu sayede instanceda ford.setPrice = 5000 // Setter method yazmamizi saglamis oluyoruz
+    //bu sekilde #price güncellendi ama degeri gözükmedi bunun icin getter metodu yazmaliyim fakat ben istersem bunu getter yazip göstermeden setter metodumun icinde bir mesaj yazar price i günceller return e true yazar bu sekildede devam edebilirim
+
+    //normalde piyasada setter getter ve degisken ismi ayni olur yani Price ama biz burda anlasilsin diye baslarina set get yazdik
+
+    set setPrice(newPrice) {
+        // return this.#price = newPrice //böyle
+        this.#price = newPrice;
+        console.log("Fiyat Alındı.");
+        return true;
+    }
+
+    // *getter methodu
+    // veriyi okuma metodu
+    // metodun basina get keywordu yazilir  get getPrice
+    // return this.#price seklinde return edilir
+    //yada return "Fiyat: " + (this.#price ?? "Henüz Belirlenmedi."); price tanimli ise tanimli fiyati degilse fiyat henüz tanimlanmadi mesajini gösterde diyebilkirim
+
+    get getPrice() {
+        // return this.#price
+        return "Fiyat: " + (this.#price ?? "Henüz Belirlenmedi.");
+    }
+
+    // *static property & method
+    // biz bir class in icindeki property ve metoda direk ulasamayiz bunun icin önce instance olusturup ondan sonra o instance ile ulasabilirim
+    // class lar instance olusturmak icin templete,sablondur  bu class in disinda
+    // Car.runEngine(); yazip ulasmaya calisirsam hata alirim //TypeError: Car.runEngine is not a function
+    //instance olusturmadan direk class icindeki method veya property ulasmanin yolu statik metoddur
+
+    //degisken veya metod yazarken basina static keywordü yazilir
+    // static staticProp = "static value";
+    // static staticMethod() {
+    //     console.log("Static Method çalıştı");
+    //     return this;
+    // }
+    //artik class disinda Car.staticProp ile propa Car.staticMethod ilede metoda ulasabilirim
+    //unutma static ler instance aktarilmaz
+
+    //? Direkt class ile erişmek istediklerimizi static ile işaretleriz.
+    //? Statik property veya methodlara intance ile erişilmez.
+    static staticProp = "static value";
+
+    //? Static methodlarda this ifadesi sadece statikleri çağırır.
+    static staticMethod() {
+        console.log("Static Method çalıştı");
+        return this;//statik meton icindeki this sadece statik metod icindeki verileri verir
+    }
+}
+
+
+
+// const ford = new Car('Ford', 'Mustang', 1967)
+// console.log(ford)
+
+
+
+// console.log( ford.getPrice )
+// // ford.price(5000) // CLassic method // NO ACCESS
+// ford.setPrice = 5000 // Setter method
+// console.log( ford.getPrice )
+
+// //? STATIC METHOD EXAMPLE
+// // Car.runEngine() // NO ACCESS
+// const abc = Math.round(1.56)
+// console.log( abc )
+
+// //? Statikler instance'a aktarılmaz.
+// // console.log(ford.staticMethod()) 
+// console.log( Car.staticProp )
+// console.log(ford)
+// console.log( Car.staticMethod() )
+
+// /* ------------------------------------------------------- */
+// //? ABSTRACTION: Soyutlama/Modelleme (Aynı amaç için kullanılan değişken ve methodları bir class içinde yazıyor olması)
+// //? ENCAPCULLATION: Kapsülleme/Ayrıştırma (Kodların gizliliği, private attre erişilemiyor olması ve birbirinden bağımsız çalışmaları.)
+// /* ------------------------------------------------------- */
+
+// //* HAPPY CODDING :)
