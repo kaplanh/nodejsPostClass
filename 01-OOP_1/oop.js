@@ -245,3 +245,4 @@ console.log(newCar2.isRunning);
 
 
 /* ------------------------------------------------------- */
+// not:Bir instanxe oluşturduğumuzda propertyler direkt aktarılır, methodlar ile bağ kurulur (aktarılmaz). Methodlar direk görünmese de erişilebilir vaziyette dururlar.
