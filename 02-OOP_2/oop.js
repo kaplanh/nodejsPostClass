@@ -638,7 +638,7 @@ class Car {
 // console.log( abc )
 
 // //? Statikler instance'a aktarılmaz.
-// // console.log(ford.staticMethod()) 
+// // console.log(ford.staticMethod())
 // console.log( Car.staticProp )
 // console.log(ford)
 // console.log( Car.staticMethod() )
@@ -649,3 +649,7 @@ class Car {
 // /* ------------------------------------------------------- */
 
 // //* HAPPY CODDING :)
+
+
+
+
