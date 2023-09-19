@@ -43,6 +43,9 @@
 //     }
 
 // }
+// console.log(PascalNamedClassName1.undefinedProperty);//undefined
+// console.log(PascalNamedClassName1.extraField);//undefined
+// console.log(PascalNamedClassName1.methodName2());//PascalNamedClassName1.methodName2 is not a function
 
 //? INSTANCE: Bir classtan türetilen objedir.
 
@@ -167,6 +170,7 @@ console.log(person2);//Person { ad: 'Veli', soyad: 'Rohlfing', dogum: 1980 }
 
 
 // bir classin tüm özelliklerini diger bir clas a aktarmak icin extends keywordü kullanilir böylelikle tüm özelliklerini okuyabilir,yazabilir duruma göre degistirilebilir
+
 //Araclar daha genis bir class bu clas in amaci bu aracin türünü belirlemek(araba mi, kamyon mu, motorsiklet mi vb..)
 
 // class Vehicle {
@@ -180,7 +184,7 @@ console.log(person2);//Person { ad: 'Veli', soyad: 'Rohlfing', dogum: 1980 }
 
 
 
-//arabalar
+// //arabalar
 // class Car extends Vehicle {
 //     isRunning = false;
 
@@ -249,6 +253,8 @@ class Accessory extends Car {
         this.accessoryName = accessoryName;
     }
 }
+
+//instance
 const fordCliamate1 = new Accessory(
     "Bosh Climate",
     "Ford",
@@ -267,7 +273,7 @@ console.log(fordCliamate1);
 //? Sıralama Önemli.
 
 /*------------------------------------------------------- *
-//? Polymorphism: Miras aldığımız sınıfın özellik/methodlarını yeniden yazabilme.
+//? Polymorphism: Miras aldığımız class in özellik/methodlarını yeniden yazabilme.
 //? Override: Üst metodla aynı isim ve yapıda yeni bir metod yazma. (ezme / iptal etme / önceliğini alma)
 //? Overload: Üst metodla aynı isimde ama farklı yapıda (parametre adet/tip) yeni method oluşturma. (aynı anda ikiside aktif)
 
@@ -318,7 +324,7 @@ class Car extends Vehicle {
             brand: this.brand,
             model: this.model,
             year: this.year,
-            vehicleType: super.getDetails(), // Parent class metodları super ile çalıştırabilir.
+            vehicleType: super.getDetails(), // Parent class metodları super ile çalıştırabilir.this kendini isaret ettigi icin sonsuz döngü olur
             // vehicleIsActive: super.vehicleIsActive // super-constructor bu veriyi this'e aktardı.
             vehicleIsActive: this.vehicleIsActive, // super constructor bu veriyi this'e aktardı.
         };
@@ -326,49 +332,53 @@ class Car extends Vehicle {
 }
 
 const ford = new Car("Ford", "Mustang", 1967, "SUV");
-console.log(ford);
-// console.log(ford.getDetails());
+
+
+console.log(ford.getDetails());
+
 
 // bunu neden yapariz parentteki metod bizim ihtiyaclarimizi karsilamiyor olabilir onu cagirip yeni isimle tekrar tanimlayip ihtiyaclarima göre yeniden düzenleyip kullanabilirim
 // ayni komut daha fazla veri veriyor cünkü biz methodu yeniden yazdik ve daha fazla sey istedik
 
 
 
-ben 
-super(vehicleType) ile parenten consturctor una
-super.getDetails() diyerek parent class in methoduna ulasabiliyorum
-super calistiktan sonrada child class in bir metodunun icinde this.vehicleIsActive gibi parenten tüm property lereine ulasabiliyorum cünkü super() propertyleri  this e aktardi  
+// ben 
+// super(vehicleType) ile parenten consturctor una
+// super.getDetails() diyerek parent class in methoduna ulasabiliyorum
+// super calistiktan sonrada child class in bir metodunun icinde this.vehicleIsActive gibi parenten tüm property lereine ulasabiliyorum cünkü super() propertyleri  this e aktardi  
 
-/* ------------------------------------------------------- */
+/* ------------------------------------------------------- *
 
 //? Overload:(ES6 ile geldi)
 //?  Üst metodla aynı isimde ama farklı yapıda parametre sayisini veya parametre tipini farkli yazarak (parametre adet/tip) yeni method oluşturma. (aynı anda ikiside aktif) iki parametreli ise alttakini 1 parametreli ise üstekini calistracak gibi düsünülebilir
 
-// class Book {
-//   constructor(title, author, year) {
-//     this.title = title
-//     this.author = author
-//     this.year = year
-//   }
+class Book {
+  constructor(title, author, year) {
+    this.title = title
+    this.author = author
+    this.year = year
+  }
 // //   getSummary() {
 // //     return `${this.title} was written by ${this.author} in ${this.year}`
 // //   }
-//   setPrice(price) {
-//     const taxRate = 1.1
-//     this.price = Math.trunc(price * taxRate)
-//   }
-// }
+  setPrice(price) {
+    const taxRate = 1.1
+   return this.price = Math.trunc(price * taxRate)
+  }
+}
+
+
 // //! Book kalibinda yeni bir ornek (instance) olusturduk.
-// const book1 = new Book("Stupid Reseaches", "XYZ", 2022)
+const book1 = new Book("Stupid Reseaches", "XYZ", 2022)
 // const book2 = new Book("Dummy Reseaches", "ABC", 2023)
 // //? Sub-Class tanimlamasi (Inheritance)
 
 
-// class Magazine extends Book {
-//   constructor(title, author, year, month) {
-//     super(title, author, year)
-//     this.month = month
-//   }
+class Magazine extends Book {
+  constructor(title, author, year, month) {
+    super(title, author, year)
+    this.month = month
+  }
 //   //? overrided method
 //   //! Overrided Metot (Parent class'daki bir metodun farkli
 //   //! fonksiyonellikle ve ayni parametre listesi ile yeniden tanimlanmasi)
@@ -377,19 +387,19 @@ super calistiktan sonrada child class in bir metodunun icinde this.vehicleIsActi
 // //   }
 //   //? Overloading method
 //   //! Overloaded Metot (Parenttaki bir metodun farkli parametreler ile yeniden kullanilmasi)
-//   setPrice(price, taxRate = 1.2) {
-//     this.price = price * taxRate
-//   }
+  setPrice(price, taxRate = 1.2) {
+    return this.price = price * taxRate
+  }
 //   //? Parenttaki bir fonksyionu yeniden cagirmak
 // //   getSummaryParent() {
 // //     return super.getSummary()
 // //   }
-// }
-// book1.setPrice(100)
-// console.log(book1)
-// const mag1 = new Magazine("Elle", "Allen McElle", 2023, "June")
-// mag1.setPrice(50, 1.5) //? overloaded method cagrildi.
-// console.log(mag1)
+}
+book1.setPrice(100)
+console.log(book1)
+const mag1 = new Magazine("Elle", "Allen McElle", 2023, "June")
+mag1.setPrice(100, 1.5) //? overloaded method cagrildi.
+console.log(mag1)
 // // console.log(mag1.getSummary()) //? overrided method cagrildi
 // // console.log(mag1.getSummaryParent()) //? parent tan gelen method dolaylı yoldan cagrildi
 
@@ -459,7 +469,7 @@ console.log(mag1.getSummaryParent()) //? parent tan gelen method dolaylı yoldan
 
 
 
-/* ------------------------------------------------------- *
+/* ------------------------------------------------------- */
 //? PUBLIC,PRIVATE,PROTECTED propertyler
 
 //? JS PUBLIC: Genel erişime açık.
@@ -469,7 +479,7 @@ console.log(mag1.getSummaryParent()) //? parent tan gelen method dolaylı yoldan
 
 // *PUBLIC:default olarak tanimlanan degiskenler(property) dir bir instance dan child class dan bunlara ulasabilir degistirebilirim
 
-//* _PROTECTED: basina alt tire _ konularak tanimlanan degiskenlere PROTECTED propertyler denir.child class dan ulasabilirsin ama instance dan ulasamazsin (buna dokunma)
+//* _PROTECTED: basina alt tire( _) konularak tanimlanan degiskenlere PROTECTED propertyler denir.child class dan ulasabilirsin ama instance dan ulasamazsin (buna dokunma)
 
 //* #PRIVATE:basina kare # konularak tanimlanan degiskenlere PRIVATE propertyler denir. sadece kendi class inin icinden ulasilabilen instance ve child class da ulasilamayan propery ler
 //*metodlar icinde ayni sey gecerlidir
@@ -533,7 +543,7 @@ console.log ( ford )
 console.log ( ford.getDetails() )
 // console.log ( ford.#privateProp ) // NO ACCESS
 
-/* ------------------------------------------------------- *
+/* ------------------------------------------------------- */
 
 //? GETTER & SETTER METHODS: Görevi veri getirme (getter) ve veri güncelleme (setter) olan metodlardır.
 //? "STATIC" KEYWORD: Class'dan direkt erişim. (Instance erişemez.)
@@ -606,7 +616,7 @@ class Car {
     //? Static methodlarda this ifadesi sadece statikleri çağırır.
     static staticMethod() {
         console.log("Static Method çalıştı");
-        return this;//statik meton icindeki this sadece statik metod icindeki verileri verir
+        return this;//statik metod icindeki this sadece statik metod icindeki verileri verir
     }
 }
 
