@@ -268,7 +268,7 @@ VALUES
 
 /*
 -- UPDATE -- Kayıt Güncelleme
-UPDATE Artist SET ( Name='Abdullah A.' ) WHERE ArtistId = 276;
+UPDATE Artist SET Name='Tahsin.'  WHERE ArtistId = 278;
 */
 
 /*
