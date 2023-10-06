@@ -166,24 +166,25 @@ app.get("/*", (req, res) => {
 // ?admin icin middleware örnegi
 // 1-ya bu sekilde önce require yapar sonra methodun icnde fonksnu calistiririm yada asagidaki gibi app.use() ivinde require yapar kullanirim
 
-// const [isAdmin] = require("./middlewares/");// fonksiyonu buraya cagirdim
+const [isAdmin] = require("./middlewares/"); // fonksiyonu buraya cagirdim
 
-// app.get("/", isAdmin, (req, res) => { //burada kullandim
-//     res.send("Welcome!");
-// });
-
-// app.get("/", (req, res) => {
-//     res.status(403).send("Access denied");
-// });
-
-app.use(require("./middlewares/index")); //fonksiyonu hem cagirdim hemde kullandim
-
-app.get("/", (req, res) => {
+app.get("/", isAdmin, (req, res) => {
+    //burada kullandim
     res.send("Welcome!");
 });
 
 app.get("/", (req, res) => {
     res.status(403).send("Access denied");
 });
+// app.use() next('route') u desteklemez o nedenle üstteki gibi callback seklinde yazilmali
+// app.use(require("./middlewares/index")); //fonksiyonu hem cagirdim hemde kullandim
+
+// app.get("/", (req, res) => {
+//     res.send("Welcome!");
+// });
+
+// app.get("/", (req, res) => {
+//     res.status(403).send("Access denied");
+// });
 /* ------------------------------------------------------- */
 app.listen(PORT, () => console.log("Running: http://127.0.0.1:" + PORT));
