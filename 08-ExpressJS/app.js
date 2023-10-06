@@ -28,6 +28,8 @@ const PORT = process.env?.PORT || 8000;
 
 /* HTTP_Methods & URLs */
 //* asagidaki kod kullanici '/' bu url ye get metodu ile geldiginde yanindaki callback calisacak demmektir
+// thunder Client de http://[::1]:8000
+// postman de http://[127.0.0.1]:8000
 // app.get("/", (request, response) => {
 //     //? run response.send for print-out:
 // response.send("Welcome to Express");//string veri //text/html tipinde
@@ -73,10 +75,13 @@ app.get(/xyz/, (req, res) => res.send("regexp /xyz/")); // url contains = 'xyz' 
 app.get(/^\/xyz/, (req, res) => res.send("regexp /^/xyz/")); // url startswith = 'xyz', bu url xyz ile baslarsa 
 app.get(/xyz$/, (req, res) => res.send("regexp /xyz$/")); // url endswith = 'xyz'
 
+
+//regex kurallari ve alistirma icin link==> https://regexr.com/
 /* ------------------------------------------------------- */
 /* URL Parameters (req.params) */
 
 // /user/66/config/update/any/any/any
+// alttaki * bundan sonra hersey olabilir demek
 // app.get("/user/:userId/config/:configParam/*", (req, res) => {
 //     res.send({
 //         userId: req.params.userId,
@@ -96,13 +101,13 @@ app.get(/xyz$/, (req, res) => res.send("regexp /xyz$/")); // url endswith = 'xyz
 
 // //? '\d' means only-digit-chars in regexp://sayi icin
 // //? '\w' means only-chars in regexp://text icin
-// app.get('/user/:userId([0-9]+)', (req, res) => { //userId yi sayiya  zorladik
+// app.get('/user/:userId([0-9]+)', (req, res) => { //userId yi sayiya  zorladik + ile birden fazla sayi olmasini sagladik
 // app.get('/user/:userId(\\d+)', (req, res) => {//userId yi sayiya  zorladik
 //     res.send({
 //         params: req.params
 //     })
 // })
-
+// : icin araya / koymak zorunda degiliz asagidaki gibide olabilir
 // app.get('/command/:userId-:profileId', (req, res) => {
 //     res.send({
 //         params: req.params
