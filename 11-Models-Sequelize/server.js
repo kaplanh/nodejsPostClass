@@ -22,6 +22,7 @@ app.use(express.json());
 
 /* ------------------------------------------------------- */
 // ?router middleware i app e aktarmak icin (bu arada todo.model i router a aktardik o nedenle buraya aktarmaya gerek yok )
+//* TodoModel moved to todo.model.js
 app.use(require("./todo.router"));
 
 // app.use(require("./todo.model..aciklamali"));
