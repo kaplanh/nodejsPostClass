@@ -8,6 +8,20 @@
 
 const router = require("express").Router();
 
+// middleware i direk yazip kullanmak icin böyle yazabiliriz yada asagidaki gibi bunu bir fonksiyona atayip router.use() ile calistirabiliriz
+//* router icinde middleware in 1.yazim sekli
+// router.use((req, res, next) => {
+//     const { username, password } = req.query;
+//     if (username === "clarusway" && password === "clarusway") {
+//         next();
+//     } else {
+//         res.send({
+//             message: "Wrong Username or password",
+//         });
+//     }
+// });
+
+//* router icinde middleware in 2.yazim sekli
 const routeControl = (req, res, next) => {
     const { username } = req.query;
 
@@ -22,6 +36,8 @@ const routeControl = (req, res, next) => {
 
 // We can use middleware with router:
 router.use(routeControl);
+/*-----------------------------------------------------------------------------*/
+//* ayni application.route('/') da oldugu gibi router.route('/') da kullanabilir ve bu ayni url ait birden fazla method u tek bir url icin cagirabiliriz asagiya bakiniz
 
 router
     .route("/extra")
@@ -37,6 +53,7 @@ router
     .delete((req, res) => {
         res.send({ message: "delete" });
     });
+/*-----------------------------------------------------------------------------*/
 
 router.get("/", (req, res) => {
     res.send({ message: "All User" });

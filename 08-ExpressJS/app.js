@@ -107,6 +107,11 @@ app.get(/xyz$/, (req, res) => res.send("regexp /xyz$/")); // url endswith = 'xyz
 //         params: req.params
 //     })
 // })
+// app.get('/user/:userId(\\w+)', (req, res) => {//userId yi sayiya  zorladik
+//     res.send({
+//         params: req.params
+//     })
+// })
 // : icin araya / koymak zorunda degiliz asagidaki gibide olabilir
 // app.get('/command/:userId-:profileId', (req, res) => {
 //     res.send({
