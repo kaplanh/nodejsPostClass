@@ -6,11 +6,13 @@
 const express = require("express");
 const app = express();
 
+// ?.env den veri cekebilmek icin
 require("dotenv").config();
 const PORT = process.env.PORT || 8000;
 
 /* ------------------------------------------------------- */
-// ?Gelen json veriyi yakalamak icin
+// ?Gelen json veriyi yakalamak icin bu kodu calistirmaliyim yoksa gelen json datayi hemen almiyor bu middleware i kullanmaliyiz gelen veriyi req.body den alacagiz
+// gelen json i kabul etme ve objeye cevirme isini bu kod yaoiyor
 // Accept json data & convert to object:
 app.use(express.json());
 
@@ -19,12 +21,12 @@ app.use(express.json());
 // });
 
 /* ------------------------------------------------------- */
+// ?router middleware i app e aktarmak icin (bu arada todo.model i router a aktardik o nedenle buraya aktarmaya gerek yok )
 app.use(require("./todo.router"));
 
 // app.use(require("./todo.model..aciklamali"));
 /* ------------------------------------------------------- */
-// const asyncHandler = require("express-async-handler");
-// const { isMapIterator } = require("util/types");
+//?errorHandler-hatalari yakalayip istedigim gibi json formatta hata yayinlaak icin
 
 const errorHandler = (err, req, res, next) => {
     const errorStatusCode = res.errorStatusCode ?? 500;

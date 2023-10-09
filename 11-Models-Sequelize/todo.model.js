@@ -7,12 +7,20 @@
 
 // https://sequelize.org/docs/v6/getting-started/
 const { Sequelize, DataTypes } = require("sequelize");
+
 // Where is DB (DB Connection Details):
-// const sequelize = new Sequelize('postgres://postgres:12345678@localhost:5432/todoCH14') // $ npm i pg pg-hstore
+// *sqlite + postgresql
 // const sequelize = new Sequelize('sqlite:./db.sqlite3')
 const sequelize = new Sequelize(
     "sqlite:" + (process.env.SQLITE || "./db.sqlite3")
 );
+
+// *sequelize + postgresql
+// $ npm i pg pg-hstore
+// const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Example for postgres
+// const sequelize = new Sequelize(
+//     "postgres://postgres:kp12345@127.0.0.1:5432/todoCH14"
+// ); // Example for postgres
 
 // sequelize.define('tableName', { columns })
 const Todo = sequelize.define("todo", {
@@ -37,7 +45,7 @@ const Todo = sequelize.define("todo", {
 
     priority: {
         // 1: High, 0: Normal, -1: Low
-        type: DataTypes.TINYINT, // postgres: INTEGER
+        type: DataTypes.INTEGER, // postgres: INTEGER
         allowNull: false,
         defaultValue: 0, // set default value.
     },

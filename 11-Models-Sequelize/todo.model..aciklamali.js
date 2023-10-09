@@ -10,79 +10,24 @@
 // npm i sequelize tedious  //Microsoft SQL Server ile calisacaksam
 // npm i sequelize oracledb  //Oracle Database ile calisacaksam
 
-// ?2-sequelize i require() edip icinden Sequelize motorunu ve DataTypes i destructring yöntemi ile cagiriyoruz
+// ?2-sequelize i require() edip icinden Sequelize motorunu ve DataTypes modulünü destructring yöntemi ile cagiriyoruz
 // Not:postgre sql ile calisacaksam  postgresql de önceden veri tabani ve user hazir olmali tablolari olusturmaya gerek yok onu model(sequelize ile) kendi  olusturacak
 
 const { Sequelize, DataTypes } = require("sequelize");
 // console.log(sequelize);
 // ?3  Sequelize() class ina baglanmak istedigim database ismi ve localde baglanacaksam yolunu uzaktakine baglanacaksam connecting string ini yazip  bir instance olusturuyorum yani pgAdmin4 e gidip user ve veri tabani olusturmam gerek
+
+// *sqlite + postgresql
 const sequelize = new Sequelize(
     "sqlite:" + process.env.SQLITE || "./db.sqlite3" // baglanacagim db yol veya connecting stringini .env de tutabilir ordan cagirabilirm
 );
 
-// ?3-const Todoo = sequelize.define('tableName,{ title: { type: DataTypes.STRING(64), // varchar(64)      allowNull: false,}, description: DataTypes.TEXT, // ShortHand Using.})
-// komutu ile Modelimizi olusturuyoruz
-// burda Todo model ismi pascalcase
-//1.parametre  tableName:olusacak tablo ismi
-// 2.parametre {sütunName:{type:DataTypes.INTEGER,}} keyler sütun isimleri ve datatypes larini vb belirtmis olacak
-
-// hangi data tipinin hangi veri tabani tarafindan desteklendigini burdan bakabilirsin==> https://sequelize.org/docs/v7/models/data-types/
-
-// model olustururken erd ne diyorsa ona göre hazirlanir onun disina cikilmaz
-// sequelize.define('tableName', { columns })
-// sequelize ile tablo olusturmanin komutu define('tablename',{}) ve define() iki parametresi var 1.si string icinde tablo ismi 2.si obje objenin key leri sütun isimlerini bu keylere gelen objeler ise datatypes lari yani o sütunlarda tutulacak veri typleri ve diger özellikleri-kisitlamalari belirtir
-const Todo = sequelize.define("todo", {
-    // id: {
-    //     //? Not need define ID field, it will create auto.
-    //     type: DataTypes.INTEGER,
-    //     unique: true,
-    //     allowNull: false, // default: true
-    //     field: "custom_column_name", // Change column name //id degilde custom_column_name yazar
-    //     comment: "Description",
-    //     primaryKey: true,
-    //     autoIncrement: true,
-    // },
-    title: {
-        type: DataTypes.STRING(64), // varchar(64)
-        allowNull: false, //bos birakilabilir mi hayir
-    },
-
-    description: DataTypes.TEXT, // ShortHand Using. sadece data tipini belirteceksem obje acmama gerek yok
-
-    priority: {
-        // 1: High , 0: Normal, -1: Low yüksek öncelikli veya degil
-        type: DataTypes.TINYINT, //TINYINT:kücük sayilik bir alan rezerv etsin postgres: INTEGER
-        allowNull: false,
-        defaultValue: 0, // set default value.
-    },
-
-    isDone: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-    },
-
-    //? Not need define "createdAt" & "updatedAt" fields.//bu ikisini postgre sql e birakmak en iyisi
-    // createdAt: false, // Unset
-    // updatedAt: false, // Unset
-});
-
-// ?4 -    mongoDB de create database yada create collection yapmamiza gerek yok bir veri bir document yolladigimiz zaman otomatik kendi olusturuyordu fakat sql db lerde böyle birsey yok db önceden hazir olmali o nedenle bu db lere önceden veri tabani olustur bu db yi ayaga kaldir demeliyiz bunun icin asagidaki 3 koddan biri ile  sekronizasyon yapmaliyim bu sekronizasyon komutu ile klasörümün icinde db.sqlite3 adinda bir db olusacak ve sqlite viewer extantion u yüklersem v s koda bana olusturdugum tabloyu görmebilecegim
-// Synchronization:
-//! SYNC MUST RUN ONCE!-sadece bir defa calismali sonra kapatilmali
-// sequelize.sync() // CREATE TABLE-yoksa olusturur ama degisiklikleri sekronize etmez
-// sequelize.sync({ force: true }) // DROP & CREATE-önceki verileri siler  degisiklikleri sekronize eder
-
-// *bunu kullan
-// sequelize.sync({ alter: true }); // TO BACKUP & DROP & CREATE & FROM BACKUP-degisikleri önceki verileri silmeden sekronize eder önce var olan verileri yedekler sonra siler sonra degisikliklerle birlikte eskileri sekronize eder
-// !NOT:bu Synchronization islemi sadece bir defa yapilmali ve yoruma alinmali
-
-// ?5-sisteme ekleme cikarma islemleri yapabilmek icin sequelize.authenticate() ile baglaniyorum
-// Connect:
-sequelize
-    .authenticate() //async bir method calisip calismadigni anlamak icin then-catch ile kontrol ettim
-    .then(() => console.log("* DB Connected *"))
-    .catch((err) => console.log("* DB Not Connected *", err));
+// *sequelize + postgresql
+// $ npm i pg pg-hstore
+// const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Example for postgres
+// const sequelize = new Sequelize(
+//     "postgres://postgres:kp12345@127.0.0.1:5432/todoCH14"
+// ); // Example for postgres
 
 // NOT:veri tabanlarina sequelize ile baglanmanin 3 yöntemi var bu linkten inceleyebilirsin ==> https://sequelize.org/docs/v6/getting-started/
 
@@ -104,5 +49,70 @@ sequelize
 //   host: 'localhost',
 //   dialect: /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */
 // });
+
+// ?3-const Todoo = sequelize.define('tableName,{ title: { type: DataTypes.STRING(64), // varchar(64)      allowNull: false,}, description: DataTypes.TEXT, // ShortHand Using.})
+//? komutu ile Modelimizi yani tablomuzu olusturuyoruz
+// burda Todo model ismi pascalcase
+//1.parametre  tableName:olusacak tablo ismi
+// 2.parametre {sütunName:{type:DataTypes.INTEGER,}} keyler sütun isimleri ve datatypes larini vb belirtmis olacak
+
+// hangi data tipinin hangi veri tabani tarafindan desteklendigini burdan bakabilirsin==> https://sequelize.org/docs/v7/models/data-types/
+
+// model olustururken erd ne diyorsa ona göre hazirlanir onun disina cikilmaz
+// sequelize.define('tableName', { columns })
+// sequelize ile tablo olusturmanin komutu define('tablename',{}) ve define() iki parametresi var 1.si string icinde tablo ismi 2.si obje objenin key leri sütun isimlerini bu keylere gelen objeler ise datatypes lari yani o sütunlarda tutulacak veri typleri ve diger özellikleri-kisitlamalari belirtir
+const Todo = sequelize.define("todo", {
+    // id: {
+    //     //? Not need define ID field, it will create auto.
+    //     type: DataTypes.INTEGER,
+    //     unique: true,
+    //     allowNull: false, // default: true veri tabani tarafinda bos olabilir mi-olamaz mi? require ise api tarafindan gönderilirken bos olabilirmi olamazmi anlamindadir
+    //     field: "custom_column_name", // Change column name //id degilde custom_column_name yazar
+    //     comment: "Description",//tabloda sütun isminin yaninda yorum olusturur
+    //     primaryKey: true,//
+    //     autoIncrement: true,//otomatik artirma
+    // },
+    title: {
+        type: DataTypes.STRING(64), // varchar(64)
+        allowNull: false, //bos birakilabilir mi hayir
+    },
+
+    description: DataTypes.TEXT, // ShortHand Using. sadece data tipini belirteceksem obje acmama gerek yok
+
+    priority: {
+        // 1: High , 0: Normal, -1: Low yüksek öncelikli veya degil
+        type: DataTypes.TINYINT, //TINYINT:kücük sayilik bir alan rezerv etsin postgres: INTEGER
+        allowNull: false,
+        defaultValue: 0, // set default value.
+    },
+
+    isDone: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
+
+    // createdAt: false, // Unset
+    // updatedAt: false, // Unset
+    //*Not need define "createdAt" & "updatedAt" fields.//her kayit olusturma ve güncellemede bu tarihleri benim güncellemem gerek bu zor o nednle bunlarin kontrolünü postgre sql e birakmak en iyisi
+});
+
+// ?4 -    mongoDB de create database yada create collection yapmamiza gerek yok bir veri bir document yolladigimiz zaman otomatik kendi olusturuyordu fakat sql db lerde böyle birsey yok db önceden hazir olmali o nedenle bu db lere önceden veri tabani olustur bu db yi ayaga kaldir demeliyiz bunun icin asagidaki 3 koddan biri ile  sekronizasyon yapmaliyim bu sekronizasyon komutu ile klasörümün icinde db.sqlite3 adinda bir db olusacak ve sqlite viewer extantion u yüklersem v s koda bana olusturdugum tabloyu görmebilecegim
+// Synchronization:
+//! SYNC MUST RUN ONCE!-sadece bir defa calismali sonra kapatilmali
+// sequelize.sync() // CREATE TABLE-yoksa olusturur ama degisiklikleri sekronize etmez
+// sequelize.sync({ force: true }) // DROP & CREATE-önceki verileri siler  degisiklikleri sekronize eder
+
+// *bunu kullan ve bastan sekronize et ve yoruma al
+// sequelize.sync({ alter: true }); // TO BACKUP & DROP & CREATE & FROM BACKUP-degisikleri önceki verileri silmeden sekronize eder önce var olan verileri yedekler sonra siler sonra degisikliklerle birlikte eskileri sekronize eder
+// !NOT:bu Synchronization islemi sadece bir defa yapilmali ve yoruma alinmali
+
+// ?5-sequelize i olusturdugum veri tabanina baglama-sisteme ekleme cikarma islemleri yapabilmek icin sequelize.authenticate() ile baglaniyorum
+// not:authenticate() fonksiyonu async fonksiyondur
+// Connect:
+sequelize
+    .authenticate() //async bir method calisip calismadigni anlamak icin then-catch ile kontrol ettim
+    .then(() => console.log("* DB Connected *"))
+    .catch((err) => console.log("* DB Not Connected *", err));
 
 module.exports = Todo;

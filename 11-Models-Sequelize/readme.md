@@ -36,3 +36,5 @@ yazdigimda terminalde karsilarina ne yazdiysam onlar benim karsima cikar
 ama ben bu ikisi disinda npm tarafindan taninmayan yeni bir key yazarsam bunu calistirmak icin
 $npm run devStart
 yazmam gerekir
+
+postgres pass:kp12345
