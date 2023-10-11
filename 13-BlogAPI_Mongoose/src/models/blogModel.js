@@ -36,7 +36,6 @@ const nameSchema = new mongoose.Schema({
 // ------------------------------------------
 // BlogCategory
 // ------------------------------------------
-
 const blogCategorySchema = new mongoose.Schema(
     {
         name: {
@@ -57,12 +56,13 @@ const blogCategorySchema = new mongoose.Schema(
 const blogPostSchema = new mongoose.Schema(
     {
         // _id
-
+        // iki tablo arasinda iliski kurduk
         blogCategoryId: {
             type: mongoose.Schema.ObjectId, // Relational ObjectId
             ref: "BlogCategory", // ModelName
             required: true,
         },
+        //    direk type:ObjectId yazamadik cünkü js de ObjectId diye bir veri tipi yok bu mongoose in bir veri tipi o nedenle böyle yazdik
 
         title: {
             type: String,

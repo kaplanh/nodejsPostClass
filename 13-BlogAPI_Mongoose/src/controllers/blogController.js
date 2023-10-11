@@ -24,7 +24,7 @@ const { BlogCategory, BlogPost } = require("../models/blogModel");
 // ------------------------------------------
 // BlogCategory
 // ------------------------------------------
-//? 2-Crud islemlerinin fonksiyonlarini yaziyorum
+//? 2-BlogCategory Crud islemlerinin fonksiyonlarini yaziyorum
 module.exports.BlogCategory = {
     list: async (req, res) => {
         const data = await BlogCategory.find();
@@ -85,9 +85,11 @@ module.exports.BlogCategory = {
 // ------------------------------------------
 // BlogPost
 // ------------------------------------------
+
+//? 2-BlogPost Crud islemlerinin fonksiyonlarini yaziyorum
 module.exports.BlogPost = {
     list: async (req, res) => {
-        const data = await BlogPost.find().populate("blogCategoryId"); // get Primary Data
+        const data = await BlogPost.find().populate("blogCategoryId"); // get Primary Data-bagli oldugum category nin verisini istiyorum
 
         res.status(200).send({
             error: false,
@@ -95,7 +97,9 @@ module.exports.BlogPost = {
             result: data,
         });
     },
+    // alt tabloda iken üst tablonun verisini isteyecegim yani postda iken postun icindeki blogCategoryId :req.params.categoryId ile categoryId esitleyip bagli oldugu categorinin verilerinide listelemek icin populate('blogCategoryId') komutunu kullanacagiz
 
+    // blogCategoryId si  req.params.categoryId, olan postlarlarini bana listele
     listCategoryPosts: async (req, res) => {
         const data = await BlogPost.find({
             blogCategoryId: req.params.categoryId,
