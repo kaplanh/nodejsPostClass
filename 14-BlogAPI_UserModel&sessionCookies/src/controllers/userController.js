@@ -97,6 +97,7 @@ module.exports.User = {
                     },
                 };
                 // Set Cookie:rememberMe geldiyse bu bilgiyi 3gün cookies de tut gelmezse üsteki req.sessiondan dolayi sdc tarayici kapanana kadar tutacak
+
                 if (req.body?.rememberMe) {
                     // Set Cookie maxAge:
                     req.sessionOptions.maxAge = 1000 * 60 * 60 * 24 * 3; // 3 Days
@@ -105,7 +106,7 @@ module.exports.User = {
                 res.status(200).send({
                     error: false,
                     result: user,
-                    session: req.session,//session verisinide döndürüyoruz
+                    session: req.session, //session verisinide döndürüyoruz
                 });
             } else {
                 //bu bilgilere sahip bir user yoksa yani bilgiler yanlis ise
@@ -122,7 +123,7 @@ module.exports.User = {
 
     logout: async (req, res) => {
         // Set session to null:
-        req.session = null;//session kayitlarini siliyor dolayisiylada kullanici cikis yapmis oluyor
+        req.session = null; //session kayitlarini siliyor dolayisiylada kullanici cikis yapmis oluyor
         res.status(200).send({
             error: false,
             message: "Logout OK",
