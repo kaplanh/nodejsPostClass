@@ -23,10 +23,11 @@ const session = require("cookie-session");
 
 app.use(
     session({
-        secret: process.env.SECRET_KEY || "secret_keys_for_cookies",
-        // name: 'cookie', // default: req.session
-        // maxAge: 1000 * 60 * 60 * 24 // 1 day (miliseconds)
+        secret: process.env.SECRET_KEY || "secret_keys_for_cookies",//secret key burayada cagiriyoruz
+        // name: 'cookie', // default: req.session isetersem name:'cookie ile isminide degistirebilirim
+        // maxAge: 1000 * 60 * 60 * 24 // 1 day (miliseconds)-bilginin tutulacagi ömrü belirliyorum
     })
+    //not: aslinda sdc cookies var ömür vermezsek session oluyor
 );
 /* ------------------------------------------------------- */
 

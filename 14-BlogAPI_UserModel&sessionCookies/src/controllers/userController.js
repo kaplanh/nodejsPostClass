@@ -69,16 +69,26 @@ module.exports.User = {
     },
 
     login: async (req, res) => {
-        const { email, password } = req.body;
+        const { email, password } = req.body; //email ve passwordü req.body den aldik
 
         if (email && password) {
+            //email ve password varsa
             // const user = await User.findOne({ email: email, password: passwordEncrypt(password) })
             // No need passwordEncrypt, because using "set" in model:
+            //* normalde ben req.body ile aldigim passwordü DB deki sifreli passwordle karsilastiracagim icin password: passwordEncrypt(password) seklinde sifreleyip karsilastirmam gerek fakat modeli belirlerken kullandigim set bunu default olarak hallediyor o nedenle buna gerek kalmiyor
             const user = await User.findOne({
                 email: email,
                 password: password,
-            });
+            }); //emaili ve passwordü bu olan kullaniciyi bul user a ata
             if (user) {
+                //bu bilgilere sahip bir user varsa yani bilgiler dogru ise
+
+                // localStorage:sen silmedigin müddetce bilgi orda kalir
+                // sessionStorage:tarayici kapanincaya kadar bilgi tutar
+                // Cookies:belirlenen gün kadar veriler orda kalir
+
+                // not:testleri postman de yap cünkü thunder bu session testlerinde cok basarili degil
+
                 // Set Session:
                 req.session = {
                     user: {
@@ -86,7 +96,7 @@ module.exports.User = {
                         password: user.password,
                     },
                 };
-                // Set Cookie:
+                // Set Cookie:rememberMe geldiyse bu bilgiyi 3gün cookies de tut gelmezse üsteki req.sessiondan dolayi sdc tarayici kapanana kadar tutacak
                 if (req.body?.rememberMe) {
                     // Set Cookie maxAge:
                     req.sessionOptions.maxAge = 1000 * 60 * 60 * 24 * 3; // 3 Days
@@ -95,13 +105,16 @@ module.exports.User = {
                 res.status(200).send({
                     error: false,
                     result: user,
-                    session: req.session,
+                    session: req.session,//session verisinide döndürüyoruz
                 });
             } else {
+                //bu bilgilere sahip bir user yoksa yani bilgiler yanlis ise
                 res.errorStatusCode = 401;
                 throw new Error("Login parameters are not true.");
             }
         } else {
+            //email ve password yoksa
+
             res.errorStatusCode = 400;
             throw new Error("Email and Password are required.");
         }
@@ -109,7 +122,7 @@ module.exports.User = {
 
     logout: async (req, res) => {
         // Set session to null:
-        req.session = null;
+        req.session = null;//session kayitlarini siliyor dolayisiylada kullanici cikis yapmis oluyor
         res.status(200).send({
             error: false,
             message: "Logout OK",
