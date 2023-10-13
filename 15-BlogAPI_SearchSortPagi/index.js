@@ -20,22 +20,19 @@ const PORT = process.env.PORT || 8000;
 // https://www.npmjs.com/package/cookie-session
 //* $ npm i cookie-session
 const session = require("cookie-session");
-
 app.use(
-    session({
-        secret: process.env.SECRET_KEY || "secret_keys_for_cookies",//secret key burayada cagiriyoruz
-        // name: 'cookie', // default: req.session isetersem name:'cookie ile isminide degistirebilirim
-        // maxAge: 1000 * 60 * 60 * 24 // 1 day (miliseconds)-bilginin tutulacagi ömrü belirliyorum
-    })
-    //not: aslinda sdc cookies var ömür vermezsek session oluyor
+    session({ secret: process.env.SECRET_KEY || "secret_keys_for_cookies" })
 );
 /* ------------------------------------------------------- */
-// express e json veri gönderecegimi ve bunu kabul edip object e döndürmesi istedigimi belirtiyorum
 // Accept json data & convert to object:
 app.use(express.json());
 
 // Connect to MongoDB with Mongoose:
+// npm i mongoose
 require("./src/dbConnection");
+
+// Searching&Sorting&Pagination:
+app.use(require("./src/middlewares/findSearchSortPage"));
 
 // HomePage:
 app.all("/", (req, res) => {
@@ -48,9 +45,10 @@ app.use("/blog", require("./src/routes/blogRoute"));
 
 /* ------------------------------------------------------- */
 // Synchronization:
-// require("./src/sync")();
+// require('./src/sync')()
 
 // errorHandler:
+// npm i express-async-errors
 app.use(require("./src/errorHandler"));
 
 app.listen(PORT, () => console.log("Running: http://127.0.0.1:" + PORT));

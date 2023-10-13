@@ -19,6 +19,7 @@ require("dotenv").config();
 const PORT = process.env.PORT || 8000;
 /*-------------------------------------------------------------*/
 // express e json veri gönderecegimi ve bunu kabul edip object e döndürmesi istedigimi belirtiyorum
+// Accept json data & convert to object:
 app.use(express.json());
 
 // Connect to MongoDB with Mongoose:
