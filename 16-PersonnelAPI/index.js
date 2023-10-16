@@ -40,6 +40,7 @@ app.use(require("./src/middlewares/findSearchSortPage"));
 
 // /departmets
 app.use("/departments", require("./src/routes/department.router"));
+app.use("/personnels", require("./src/routes/personnel.router"));
 
 // continue from here...
 

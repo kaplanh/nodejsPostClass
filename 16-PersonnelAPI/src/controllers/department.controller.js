@@ -10,6 +10,7 @@ module.exports = {
         const data = await res.getModelList(Department); //url den gelen  searc sort .. islemlerini al DB de bunlari yap ve dataya ata
         res.status(200).send({
             error: false,
+            details: await res.getModelListDetails(Department),
             data, //data:data seklide es6 ile bu sekildede yazilabiliyor//
         });
     },
@@ -54,5 +55,24 @@ module.exports = {
         //     error: !isDeleted,
         //     data
         // })
+    },
+    personnels: async (req, res) => {
+        const Personnel = require("../models/personnel.model");
+
+        const data = await res.getModelList(
+            Personnel,
+            { departmentId: req.params.id },
+            "departmentId"
+        );
+
+        res.status(200).send({
+            error: false,
+            detail: await res.getModelListDetails(
+                Personnel,
+                { departmentId: req.params.id },
+                "departmentId"
+            ),
+            data,
+        });
     },
 };

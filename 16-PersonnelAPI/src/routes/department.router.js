@@ -21,4 +21,7 @@ router
     .patch(department.update)
     .delete(department.delete);
 
+
+router.get("/:id/personnels", department.personnels);//bir departmandaki personneli listelemek icin
+
 module.exports = router;
