@@ -38,6 +38,9 @@ app.use(require("./src/middlewares/findSearchSortPage"));
 // bunu middleware yapmamin sebebi 1-req,res parammetrelerine ihtiyacim oldugundan 2-birden fazla modelde kullanabilmek ve kullandigim yerde ilgili modeli parametre olarak verebilmek icin
 // *NOT:bir fonksiyonu birden fazla yerde kullacaksam veya indexedDB.js i kod kalabaligindan arindirmak istiyorsam middleware yada fonksiyon olarak yazar burda cagirir calistiririm; req ve res e ihtiyacim varsa middleware seklinde yazar middlewares klasörüne atarim app.use(require()) seklinde cagirir calistiririm  req,res e ihtiyacim yoksa fonksiyon olarak yazar helper klasörünün icine atar require() ile cagirir fonkName() ilede calistiririm
 
+// /departmets
+app.use("/departments", require("./src/routes/department.router"));
+
 // continue from here...
 
 /* ------------------------------------------------------- */
