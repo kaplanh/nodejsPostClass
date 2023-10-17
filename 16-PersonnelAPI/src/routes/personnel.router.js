@@ -6,7 +6,13 @@ const router = require("express").Router();
 
 const personnel = require("../controllers/personnel.controller");
 
-//URL:/departments//router in kontrol ettigi url
+
+// URL: /personnels
+
+// Login/logout:
+// not:en üstte yazmalisin
+router.post('/login', personnel.login)
+router.all('/logout', personnel.logout)
 
 router
     .route("/") ///departments/

@@ -60,10 +60,11 @@ module.exports = {
         const Personnel = require("../models/personnel.model");
 
         const data = await res.getModelList(
-            Personnel,
-            { departmentId: req.params.id },
-            "departmentId"
+            Personnel,//hangi modelde 
+            { departmentId: req.params.id },//hangi departman
+            "departmentId"//
         );
+        // /departments/departmentId/personnels
 
         res.status(200).send({
             error: false,
