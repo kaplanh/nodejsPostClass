@@ -12,17 +12,17 @@ const permissions = require("../middlewares/permissions");
 
 router
     .route("/")
-    .get(permissions.isLogin, department.list)//login olan department i listeleyebilir
-    .post(permissions.isAdmin, department.create);//admin olan departman ekleme yapabilir
+    .get(permissions.isLogin, department.list)
+    .post(department.create);
 
 router
     .route("/:id")
-    .get(permissions.isAdminOrLead, department.read) //admin veya lead olan o departmanda okuma yapabilir
-    .put(permissions.isAdminOrLead, department.update) //admin veya lead olan o departmanda güncelleme yapabilir
+    .get(permissions.isAdminOrLead, department.read)
+    .put(permissions.isAdminOrLead, department.update)
     .patch(permissions.isAdminOrLead, department.update)
-    .delete(permissions.isAdmin, department.delete);//adminolan o departmanda silme yapabilir
+    .delete(permissions.isAdmin, department.delete);
 
-router.get("/:id/personnels", permissions.isAdminOrLead, department.personnels);//
+router.get("/:id/personnels", permissions.isAdminOrLead, department.personnels);
 
 /* ------------------------------------------------------- */
 module.exports = router;
