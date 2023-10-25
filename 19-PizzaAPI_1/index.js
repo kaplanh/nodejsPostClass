@@ -31,6 +31,11 @@ dbConnection()
 
 /* ------------------------------------------------------- */
 // Middlewares:
+//Accept JSON:
+app.use(express.json())
+
+//res.getModelList():
+app.use(require('./src/middlewares/findSearchSortPage'))
 
 
 
