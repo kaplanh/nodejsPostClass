@@ -15,12 +15,12 @@ module.exports.User = {
     list: async (req, res) => {
         // const data = await User.find()
         // const data = await User.find(search).sort(sort).skip(skip).limit(limit).populate(populate)
-        const data = await req.getModelList(User);
+        const data = await res.getModelList(User);
 
         res.status(200).send({
             error: false,
             count: data.length,
-            details: await req.getModelListDetails(User),
+            details: await res.getModelListDetails(User),
             result: data,
         });
     },

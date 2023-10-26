@@ -18,12 +18,14 @@ const { BlogCategory, BlogPost } = require("../models/blogModel");
 module.exports.BlogCategory = {
     list: async (req, res) => {
         // const data = await BlogCategory.find()
-        const data = await req.getModelList(BlogCategory);
+        const data = await res.getModelList(BlogCategory);
+        
+      
 
         res.status(200).send({
             error: false,
             count: data.length,
-            details: await req.getModelListDetails(BlogCategory),
+            details: await res.getModelListDetails(BlogCategory),
             result: data,
         });
     },
@@ -116,12 +118,12 @@ module.exports.BlogPost = {
         const data = await BlogPost.find(search).sort(sort).skip(skip).limit(limit).populate('blogCategoryId')
         */
 
-        const data = await req.getModelList(BlogPost, "blogCategoryId");
+        const data = await res.getModelList(BlogPost, "blogCategoryId");
 
         res.status(200).send({
             error: false,
             count: data.length,
-            details: await req.getModelListDetails(BlogPost),
+            details: await res.getModelListDetails(BlogPost),
             result: data,
         });
     },

@@ -39,16 +39,17 @@ module.exports = (req, res, next) => {
     // NOT:middleware oldugu icin altta  next() yazmayi unutmaki bir sonraki fonksiyon calisabilsin
     // asagidaki req.getModelList cagrildigi yerde bir model ismi birde populate gibi 2 parametre bekliyor
     // populate:üstteki tablonun icerigini listeliyor örnegin populate(blogCategoryId) yazinca bu id nin icerigini görüntülemeye yariyor
-    req.getModelList = async (Model, populate = null) => {
+    res.getModelList = async (Model, populate = null) => {
         return await Model.find(search)
             .sort(sort)
             .skip(skip)
             .limit(limit)
             .populate(populate);
     };
+   
 
     // Details:
-    req.getModelListDetails = async (Model) => {
+    res.getModelListDetails = async (Model) => {
         const data = await Model.find(search);
         let details = {
             search, //ne araniyor
