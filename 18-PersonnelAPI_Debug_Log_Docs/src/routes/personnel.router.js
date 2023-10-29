@@ -16,7 +16,7 @@ const permissions = require("../middlewares/permissions");
 
 router
     .route("/")
-    .get(permissions.isAdmin, personnel.list)
+    .get( personnel.list)
     .post(permissions.isAdmin, personnel.create);
 
 router

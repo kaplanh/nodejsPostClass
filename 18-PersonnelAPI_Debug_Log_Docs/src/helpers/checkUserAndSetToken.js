@@ -5,13 +5,13 @@
 const jwt = require("jsonwebtoken");
 const Personnel = require("../models/personnel.model");
 
-module.exports = async function (userData, withRefresh = true) {
+module.exports = async function (userData, isRefresh = false) {
     let { username, password } = userData;
 
     if (username && password) {
         const user = await Personnel.findOne({ username });
 
-        if (withRefresh) {
+        if (!isRefresh) {
             const passwordEncrypt = require("./passwordEncrypt");
             password = passwordEncrypt(password);
         }
@@ -39,11 +39,11 @@ module.exports = async function (userData, withRefresh = true) {
                     username: user.username,
                     password: user.password,
                 };
-                const refreshToken = withRefresh
-                    ? jwt.sign(refreshData, process.env.REFRESH_KEY, {
+                const refreshToken = isRefresh
+                    ? null
+                    : jwt.sign(refreshData, process.env.REFRESH_KEY, {
                           expiresIn: "3d",
-                      })
-                    : null;
+                      });
 
                 return {
                     error: false,
