@@ -1,0 +1,7 @@
+::1 - - [31/Oct/2023:20:41:28 +0000] "GET /users HTTP/1.1" 404 144 "-" "Thunder Client (https://www.thunderclient.com)"
+::1 - - [31/Oct/2023:20:42:31 +0000] "GET /users HTTP/1.1" 404 144 "-" "Thunder Client (https://www.thunderclient.com)"
+::1 - - [31/Oct/2023:20:44:40 +0000] "GET /users HTTP/1.1" 404 144 "-" "Thunder Client (https://www.thunderclient.com)"
+::1 - - [31/Oct/2023:20:50:36 +0000] "GET /users HTTP/1.1" 200 1566 "-" "Thunder Client (https://www.thunderclient.com)"
+::1 - - [31/Oct/2023:20:52:44 +0000] "GET /flight HTTP/1.1" 404 145 "-" "Thunder Client (https://www.thunderclient.com)"
+::1 - - [31/Oct/2023:20:52:50 +0000] "GET /flights HTTP/1.1" 200 119 "-" "Thunder Client (https://www.thunderclient.com)"
+::1 - - [31/Oct/2023:20:53:20 +0000] "GET /passengers HTTP/1.1" 200 119 "-" "Thunder Client (https://www.thunderclient.com)"
