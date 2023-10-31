@@ -34,7 +34,7 @@ dbConnection();
 // npm i morgan
 // https://expressjs.com/en/resources/middleware/morgan.html
 
-const morgan = require("morgan");
+// const morgan = require("morgan");
 // console.log(morgan)
 // app.use(morgan('combined'))
 // app.use(morgan('IP:remote-addr TIME:[:date[clf]] REQ:":method :url HTTP/:http-version" RES::status :res[content-length] APP:":user-agent"'))
@@ -46,9 +46,20 @@ const morgan = require("morgan");
 // }))
 
 //? Write logs to file - day by day:
+// const fs = require("node:fs");
+// const now = new Date();
+// const today = now.toISOString().split("T")[0];
+// app.use(
+//     morgan("combined", {
+//         stream: fs.createWriteStream(`./logs/${today}.log`, { flags: "a" }),
+//     })
+// );
+
+const morgan = require("morgan");
 const fs = require("node:fs");
 const now = new Date();
 const today = now.toISOString().split("T")[0];
+
 app.use(
     morgan("combined", {
         stream: fs.createWriteStream(`./logs/${today}.log`, { flags: "a" }),

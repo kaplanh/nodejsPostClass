@@ -1,9 +1,18 @@
 "use strict";
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
+------------------------------------------------------- *
+{
+  "userId": "652d7681508462fafafa01a2",
+  "pizzaId": "652d76c5508462fafafa01b0",
+  "size": "Small",
+  "quantity": 1,
+  "price": 99.99
+}
 ------------------------------------------------------- */
 // Order Controller:
 
+const Pizza = require("../models/pizza");
 const Order = require("../models/order");
 
 module.exports = {
@@ -21,7 +30,11 @@ module.exports = {
             `
         */
 
-        const data = await res.getModelList(Order);
+        // const data = await res.getModelList(Order, {}, ['userId', 'pizzaId'])//*order icnde userId ve pizzaId lerin sdc id leri degilde id lerin detaylari görmek icin populate e argüman göndermem lazim hem userID i hemde pizzaId ayni anda populate yapmak icin burdan fonksiyona bir argüman göndermeliyim o nedenle 1 array icinde iki deger göndererek her ikisinide detayli görmüs olurum  ['userId', 'pizzaId']
+        const data = await res.getModelList(Order, {}, [
+            "userId",
+            { path: "pizzaId", populate: "toppings" }, //*order icinde hem userId nin detaylarini hemde  pizzaId ve onun icndeki toppings lerin detaylarini görmek icin bu kodu yazdik populate icinde populate yapmis olduk orderdaki pizzayi ve pizzanin icindeki toppings i
+        ]);
 
         res.status(200).send({
             error: false,
@@ -36,7 +49,19 @@ module.exports = {
             #swagger.summary = "Create Order"
         */
 
-        const data = await Order.create(req.body); //dB ye kaydedip db deki halini data ya atar
+        // Calculatings:
+        req.body.quantity = req.body?.quantity || 1; //body den quantity gelmezse modeldeki  default: 1  calismadi onu asmak icin bunu kullandik
+        if (!req.body?.price) {//kullanici price bilgisi girmezse(indrm vs den dolayi girebilir) price bilgisi pizza tablosundan gelecek
+            const dataPizza = await Pizza.findOne(
+                //biz baska bir modeldeki default degerden yeni bir deger hesaplayacaksak öncelikle o modeli bu kontrole require ediyoruz ardindan ModelName.find({ _id: req.body.pizzaId }) ile db den default verileri alip burdaki diger modeldeki degere atiyoruz
+                { _id: req.body.pizzaId },
+                { _id: 0, price: 1 }
+            );
+            req.body.price = dataPizza.price;
+        }
+        req.body.totalPrice = req.body.price * req.body.quantity;
+
+        const data = await Order.create(req.body);
 
         res.status(201).send({
             error: false,
@@ -50,36 +75,42 @@ module.exports = {
             #swagger.summary = "Get Single Order"
         */
 
-        const data = await Order.findOne({ _id: req.params.id });
+        const data = await Order.findOne({ _id: req.params.id }).populate([
+            "userId",
+            { path: "pizzaId", populate: "toppings" },
+        ]);
 
         res.status(200).send({
             error: false,
             data,
         });
     },
+
     update: async (req, res) => {
         /*
             #swagger.tags = ["Orders"]
             #swagger.summary = "Update Order"
         */
 
-        //* findByIdAndUpdate  metodu ile güncellersek ve 3.parametre olarakta { new: true } eklersek DB den güncellenmis halini döndürür
-        // const data = await Order.findByIdAndUpdate(req.params.userId, req.body, { new: true }) // return new-data
+        // Calculatings:
+        req.body.quantity = req.body?.quantity || 1; // default: 1
+        if (!req.body?.price) {
+            const dataOrder = await Order.findOne(
+                { _id: req.params.id },
+                { _id: 0, price: 1 } //mongodb de find() ve findOne() da 1.parametre filtre 2.parametre sdc istedigimiz sütunlari getir dedigimiz parametredir _id:default olarak true dur o nedenle gelir gelmesin istersek _id:false yada _:0 yazmamiz gerekir { _id: 0, price: 1 } bu sekilde yazarsak _id gelmeyecek price gelecektir
+            );
+            req.body.price = dataOrder.price;//sipariste adet sdc adet degistirmek isterse ücreti dataOrder dan cagirip güncellemeli
+        }
+        req.body.totalPrice = req.body.price * req.body.quantity;
 
-        // const data = await Order.updateOne({ _id: req.params.userId }, req.body)
-        const data = await Order.updateOne(
-            { _id: req.params.userId },
-            req.body,
-            { runValidators: true }
-        );
-
-        //update otomatik validation u calistirmiyor *{ runValidators: true } bunu 3.parametre olarak eklersek update yaparkende validate ettirmis oluyoruz
+        const data = await Order.updateOne({ _id: req.params.id }, req.body, {
+            runValidators: true,
+        });
 
         res.status(202).send({
             error: false,
-            body: req.body,
-            result: data, // update infos
-            newData: await Order.findOne({ _id: req.params.userId }),
+            data,
+            new: await Order.findOne({ _id: req.params.id }),
         });
     },
 
@@ -95,6 +126,5 @@ module.exports = {
             error: !data.deletedCount,
             data,
         });
-        console.log(data.deletedCount);
     },
 };

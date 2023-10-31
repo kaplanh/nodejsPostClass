@@ -36,7 +36,7 @@ module.exports = {
             #swagger.summary = "Create Topping"
         */
 
-        const data = await Topping.create(req.body); //dB ye kaydedip db deki halini data ya atar
+        const data = await Topping.create(req.body);
 
         res.status(201).send({
             error: false,
@@ -57,29 +57,21 @@ module.exports = {
             data,
         });
     },
+
     update: async (req, res) => {
         /*
             #swagger.tags = ["Toppings"]
             #swagger.summary = "Update Topping"
         */
 
-        //* findByIdAndUpdate  metodu ile güncellersek ve 3.parametre olarakta { new: true } eklersek DB den güncellenmis halini döndürür
-        // const data = await Topping.findByIdAndUpdate(req.params.userId, req.body, { new: true }) // return new-data
-
-        // const data = await Topping.updateOne({ _id: req.params.userId }, req.body)
-        const data = await Topping.updateOne(
-            { _id: req.params.userId },
-            req.body,
-            { runValidators: true }
-        );
-
-        //update otomatik validation u calistirmiyor *{ runValidators: true } bunu 3.parametre olarak eklersek update yaparkende validate ettirmis oluyoruz
+        const data = await Topping.updateOne({ _id: req.params.id }, req.body, {
+            runValidators: true,
+        });
 
         res.status(202).send({
             error: false,
-            body: req.body,
-            result: data, // update infos
-            newData: await Topping.findOne({ _id: req.params.userId }),
+            data,
+            new: await Topping.findOne({ _id: req.params.id }),
         });
     },
 
@@ -95,6 +87,5 @@ module.exports = {
             error: !data.deletedCount,
             data,
         });
-        console.log(data.deletedCount);
     },
 };

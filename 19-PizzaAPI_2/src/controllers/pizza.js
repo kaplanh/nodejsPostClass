@@ -21,7 +21,7 @@ module.exports = {
             `
         */
 
-        const data = await res.getModelList(Pizza);
+        const data = await res.getModelList(Pizza, {}, "toppings");
 
         res.status(200).send({
             error: false,
@@ -36,7 +36,7 @@ module.exports = {
             #swagger.summary = "Create Pizza"
         */
 
-        const data = await Pizza.create(req.body); //dB ye kaydedip db deki halini data ya atar
+        const data = await Pizza.create(req.body);
 
         res.status(201).send({
             error: false,
@@ -50,36 +50,30 @@ module.exports = {
             #swagger.summary = "Get Single Pizza"
         */
 
-        const data = await Pizza.findOne({ _id: req.params.id });
+        const data = await Pizza.findOne({ _id: req.params.id }).populate(
+            "toppings"
+        );
 
         res.status(200).send({
             error: false,
             data,
         });
     },
+
     update: async (req, res) => {
         /*
             #swagger.tags = ["Pizzas"]
             #swagger.summary = "Update Pizza"
         */
 
-        //* findByIdAndUpdate  metodu ile güncellersek ve 3.parametre olarakta { new: true } eklersek DB den güncellenmis halini döndürür
-        // const data = await Pizza.findByIdAndUpdate(req.params.userId, req.body, { new: true }) // return new-data
-
-        // const data = await Pizza.updateOne({ _id: req.params.userId }, req.body)
-        const data = await Pizza.updateOne(
-            { _id: req.params.userId },
-            req.body,
-            { runValidators: true }
-        );
-
-        //update otomatik validation u calistirmiyor *{ runValidators: true } bunu 3.parametre olarak eklersek update yaparkende validate ettirmis oluyoruz
+        const data = await Pizza.updateOne({ _id: req.params.id }, req.body, {
+            runValidators: true,
+        });
 
         res.status(202).send({
             error: false,
-            body: req.body,
-            result: data, // update infos
-            newData: await Pizza.findOne({ _id: req.params.userId }),
+            data,
+            new: await Pizza.findOne({ _id: req.params.id }),
         });
     },
 
@@ -95,6 +89,63 @@ module.exports = {
             error: !data.deletedCount,
             data,
         });
-        console.log(data.deletedCount);
+    },
+
+    // Add toppings to Pizza.toppings://normalde ben pizzaya yeni toppings-malzeme eklerken put islemi ile yapabilirdim bu sayede ekleyeceklerimi ekler cikaracaklarimi cikarir tekrar kayit ederdim ama bunun yerine istersem hepsini güncellemek yerine array icinde tutulan toppings-malzemelere push-ekleme ve pull-cikarma ile yeni bir malzeme ekleyip yada cikarabilirim
+    pushToppings: async (req, res) => {
+        /*
+            #swagger.tags = ["Pizzas"]
+            #swagger.summary = "Add Toppings to Pizza"
+        */
+
+        const toppings = req.body?.toppings; // bir malzeme ekleyeceksem: ObjectId  birden fazla malzeme eleyeceksem: [ ObjectIds1, ObjectIds2] seklinde push lamaliyim pull yaparken tek-tek cikarmam lazim o nedenle  array seklinde gönderemiyoruz
+
+        //? 1.yöntem
+        // const data = await Pizza.findOne({ _id: req.params.id })
+        // data.toppings.push(toppings)
+        // await data.save()
+        // ?2.yöntem(kisa)
+        const data = await Pizza.updateOne(
+            { _id: req.params.id }, //id si bu olan pizzayi bul
+            { $push: { toppings: toppings } } //db deki toppings array ine body den gelen yeni topping ide pushla-ekle
+        );
+        const newData = await Pizza.findOne({ _id: req.params.id }).populate(
+            "toppings" //db de gäüncellenmis hali ile data
+        );
+
+        res.status(202).send({
+            error: false,
+            data,
+            toppingsCount: newData.toppings.length,
+            new: newData,
+        });
+    },
+
+    // Remove toppings from Pizza.toppings:
+    pullToppings: async (req, res) => {
+        /*
+            #swagger.tags = ["Pizzas"]
+            #swagger.summary = "Remove Toppings from Pizza"
+        */
+
+        const toppings = req.body?.toppings; // ObjectId
+
+        // const data = await Pizza.findOne({ _id: req.params.id })
+        // data.toppings.pull(toppings)
+        // await data.save()
+        const data = await Pizza.updateOne(
+            { _id: req.params.id },
+            { $pull: { toppings: toppings } }
+        );
+        const newData = await Pizza.findOne({ _id: req.params.id }).populate(
+            "toppings"
+        );
+
+        res.status(202).send({
+            error: false,
+            data,
+            toppingsCount: newData.toppings.length,
+            new: newData,
+        });
     },
 };

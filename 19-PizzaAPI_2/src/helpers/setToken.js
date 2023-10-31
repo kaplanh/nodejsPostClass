@@ -11,7 +11,7 @@ module.exports = function (userData, isRefresh = false) {
     const data = {
         access: userData.toJSON(), //userdata bir model objesi olup jwt.sign()bir json bekledigi icin toJSON() ile objeyi json a cevirdik
         refresh: { _id: userData._id, password: userData.password },
-        shortExpiresIn: "10m",
+        shortExpiresIn: "30m",
         longExpiresIn: "3d",
     };
 

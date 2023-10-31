@@ -1,12 +1,10 @@
 "use strict";
 /* -------------------------------------------------------
-NODEJS EXPRESS | CLARUSWAY FullStack Team
+    NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 const { mongoose } = require("../configs/dbConnection");
-
 /* ------------------------------------------------------- */
 // Topping Model:
-const passwordEncrypt = require("../helpers/passwordEncrypt");
 
 const ToppingSchema = new mongoose.Schema(
     {
@@ -17,7 +15,11 @@ const ToppingSchema = new mongoose.Schema(
             unique: true,
         },
     },
-    { collection: "toppings", timestamps: true }
+    {
+        collection: "toppings",
+        timestamps: true,
+    }
 );
 
+/* ------------------------------------------------------- */
 module.exports = mongoose.model("Topping", ToppingSchema);

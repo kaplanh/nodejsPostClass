@@ -5,7 +5,8 @@
     "description": "Personnel Managment System",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+       "start":"nodemon",
+       "debug":"set DEBUG=*  nodemon"
     },
     "keywords": [],
     "author": "Hüseyin",
