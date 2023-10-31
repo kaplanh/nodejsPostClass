@@ -116,4 +116,22 @@ module.exports = {
             data,
         });
     },
+    passengers: async (req, res) => {
+        /*
+            #swagger.tags = ["Reservations"]
+            #swagger.summary = "List Passengers of Reservation"
+        */
+
+        const data = await Reservation.findOne({ _id: req.params.id });
+        // console.log(data.passengers)
+        const passengers = await Passenger.find({
+            _id: { $in: data.passengers },
+        });
+
+        res.status(200).send({
+            error: false,
+            // data,
+            passengers,
+        });
+    },
 };

@@ -11,6 +11,7 @@ const flight = require("../controllers/flight");
 
 // URL: /flights
 
+
 router.route("/").get(permissions.isAdmin, flight.list).post(flight.create);
 
 router
