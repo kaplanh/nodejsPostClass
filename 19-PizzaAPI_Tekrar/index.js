@@ -37,6 +37,9 @@ app.use(express.json());
 
 // Run Logger:
 app.use(require("./src/middlewares/logger"));
+// res.getModelList():
+app.use(require('./src/middlewares/findSearchSortPage'))
+
 
 /* ------------------------------------------------------- */
 // Routes:
@@ -50,6 +53,9 @@ app.all("/", (req, res) => {
         user: req.user,
     });
 });
+
+// user:
+app.use('/users', require('./src/routes/user'))
 /* ------------------------------------------------------- */
 
 // errorHandler:
