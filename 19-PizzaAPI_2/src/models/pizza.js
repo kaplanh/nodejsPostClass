@@ -34,7 +34,7 @@ const PizzaSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
-        // pizzanin üstüne birden fazla topping-malzeme gelecegi icin [{}] yani json olarak tanimladik 
+        // pizzanin üstüne birden fazla topping-malzeme gelecegi icin [{}] yani json olarak tanimladik
         // birden fazla kayit ekleyecegimiz zaman bu yapiyi kullaniyoruz
         toppings: [
             // push, pull

@@ -1,11 +1,18 @@
 "use strict";
 /* -------------------------------------------------------
-NODEJS EXPRESS | CLARUSWAY FullStack Team
+    NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 const { mongoose } = require("../configs/dbConnection");
-
+/* ------------------------------------------------------- *
+{
+    "username": "test",
+    "password": "1234",
+    "email": "abc@site.com",
+    "isAdmin": "true"
+  }
 /* ------------------------------------------------------- */
 // User Model:
+
 const passwordEncrypt = require("../helpers/passwordEncrypt");
 
 const UserSchema = new mongoose.Schema(
@@ -45,7 +52,11 @@ const UserSchema = new mongoose.Schema(
             default: false,
         },
     },
-    { collection: "users", timestamps: true }
+    {
+        collection: "users",
+        timestamps: true,
+    }
 );
 
+/* ------------------------------------------------------- */
 module.exports = mongoose.model("User", UserSchema);

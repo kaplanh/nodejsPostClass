@@ -1,8 +1,8 @@
-"use strict";
+"use strict"
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
-const { mongoose } = require("../configs/dbConnection");
+const { mongoose } = require('../configs/dbConnection')
 /* ------------------------------------------------------- *
 {
     "userId": "652d71b9c31f8eecbf12519b",
@@ -17,13 +17,14 @@ const { mongoose } = require("../configs/dbConnection");
 const OrderSchema = new mongoose.Schema(
     {
         userId: {
+            //users tablosundaki bir userin- kullanicinin id
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
-            required: true,
+            required: true, // unique:true //yaparsak one to one iliski olur ama burda many to one iliski oldugu icin yazmiyoruz yani tek bir kisi tekbir order-siparis verebilirdi ama simdi bir kisi birden fazla siparis verilebilir
         },
 
         pizzaId: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId, //ERD de bigint
             ref: "Pizza",
             required: true,
         },
@@ -31,17 +32,17 @@ const OrderSchema = new mongoose.Schema(
         size: {
             type: String,
             required: true,
-            enum: ["Small", "Medium", "Large", "XLarge"],
+            enum: ["Small", "Medium", "Large", "XLarge"], //bu degerlerden birini secmesi gerekir.bu degerler disinda baska deger girilemez
         },
 
         quantity: {
-            type: Number,
+            type: Number, //ERD deki int
             required: true,
             default: 1,
         },
 
         price: {
-            type: Number,
+            type: Number,//ERD deki decimal
             required: true,
             default: 0,
         },
@@ -57,4 +58,4 @@ const OrderSchema = new mongoose.Schema(
 );
 
 /* ------------------------------------------------------- */
-module.exports = mongoose.model("Order", OrderSchema);
+module.exports = mongoose.model('Order', OrderSchema)

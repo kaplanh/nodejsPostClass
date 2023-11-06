@@ -1,13 +1,13 @@
-"use strict";
+"use strict"
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
-const router = require("express").Router();
+const router = require('express').Router()
 /* ------------------------------------------------------- */
 // routes/topping:
 
-const permissions = require("../middlewares/permissions");
-const topping = require("../controllers/topping");
+const permissions = require('../middlewares/permissions')
+const topping = require('../controllers/topping')
 
 // URL: /toppings
 
@@ -21,16 +21,17 @@ const topping = require("../controllers/topping");
 //     .patch(permissions.isAdmin, topping.update)
 //     .delete(permissions.isAdmin, topping.delete)
 
-router.use(permissions.isAdmin); //malzeme listesine ekleme cikarma silme tüm islemleri sadece admin olan yapsin diyorsak tüm metodlara ayri ayri permissions yazmak yerine bunu yazmam yeter
+router.use(permissions.isAdmin)
 
-router.route("/").get(topping.list).post(topping.create);
+router.route('/')
+    .get(topping.list)
+    .post(topping.create)
 
-router
-    .route("/:id")
+router.route('/:id')
     .get(topping.read)
     .put(topping.update)
     .patch(topping.update)
-    .delete(topping.delete);
+    .delete(topping.delete)
 
 /* ------------------------------------------------------- */
-module.exports = router;
+module.exports = router

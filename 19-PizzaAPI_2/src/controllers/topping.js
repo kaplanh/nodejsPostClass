@@ -1,12 +1,13 @@
-"use strict";
+"use strict"
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 // Topping Controller:
 
-const Topping = require("../models/topping");
+const Topping = require('../models/topping')
 
 module.exports = {
+
     list: async (req, res) => {
         /*
             #swagger.tags = ["Toppings"]
@@ -21,13 +22,13 @@ module.exports = {
             `
         */
 
-        const data = await res.getModelList(Topping);
+        const data = await res.getModelList(Topping)
 
         res.status(200).send({
             error: false,
             details: await res.getModelListDetails(Topping),
-            data,
-        });
+            data
+        })
     },
 
     create: async (req, res) => {
@@ -36,12 +37,12 @@ module.exports = {
             #swagger.summary = "Create Topping"
         */
 
-        const data = await Topping.create(req.body);
+        const data = await Topping.create(req.body)
 
         res.status(201).send({
             error: false,
-            data,
-        });
+            data
+        })
     },
 
     read: async (req, res) => {
@@ -50,12 +51,13 @@ module.exports = {
             #swagger.summary = "Get Single Topping"
         */
 
-        const data = await Topping.findOne({ _id: req.params.id });
+        const data = await Topping.findOne({ _id: req.params.id })
 
         res.status(200).send({
             error: false,
-            data,
-        });
+            data
+        })
+
     },
 
     update: async (req, res) => {
@@ -64,15 +66,14 @@ module.exports = {
             #swagger.summary = "Update Topping"
         */
 
-        const data = await Topping.updateOne({ _id: req.params.id }, req.body, {
-            runValidators: true,
-        });
+        const data = await Topping.updateOne({ _id: req.params.id }, req.body, { runValidators: true })
 
         res.status(202).send({
             error: false,
             data,
-            new: await Topping.findOne({ _id: req.params.id }),
-        });
+            new: await Topping.findOne({ _id: req.params.id })
+        })
+
     },
 
     delete: async (req, res) => {
@@ -81,11 +82,12 @@ module.exports = {
             #swagger.summary = "Delete Topping"
         */
 
-        const data = await Topping.deleteOne({ _id: req.params.id });
+        const data = await Topping.deleteOne({ _id: req.params.id })
 
         res.status(data.deletedCount ? 204 : 404).send({
             error: !data.deletedCount,
-            data,
-        });
+            data
+        })
+
     },
-};
+}

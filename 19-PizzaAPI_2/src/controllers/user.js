@@ -36,7 +36,7 @@ module.exports = {
             #swagger.summary = "Create User"
         */
 
-        const data = await User.create(req.body);//dB ye kaydedip db deki halini data ya atar
+        const data = await User.create(req.body); //dB ye kaydedip db deki halini data ya atar
 
         res.status(201).send({
             error: false,
@@ -49,8 +49,6 @@ module.exports = {
             #swagger.tags = ["Users"]
             #swagger.summary = "Get Single User"
         */
-        
-        
 
         const data = await User.findOne({ _id: req.params.id });
 

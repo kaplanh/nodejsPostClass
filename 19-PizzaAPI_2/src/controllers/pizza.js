@@ -1,12 +1,13 @@
-"use strict";
+"use strict"
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 // Pizza Controller:
 
-const Pizza = require("../models/pizza");
+const Pizza = require('../models/pizza')
 
 module.exports = {
+
     list: async (req, res) => {
         /*
             #swagger.tags = ["Pizzas"]
@@ -21,13 +22,13 @@ module.exports = {
             `
         */
 
-        const data = await res.getModelList(Pizza, {}, "toppings");
+        const data = await res.getModelList(Pizza, {}, 'toppings')
 
         res.status(200).send({
             error: false,
             details: await res.getModelListDetails(Pizza),
-            data,
-        });
+            data
+        })
     },
 
     create: async (req, res) => {
@@ -36,12 +37,12 @@ module.exports = {
             #swagger.summary = "Create Pizza"
         */
 
-        const data = await Pizza.create(req.body);
+        const data = await Pizza.create(req.body)
 
         res.status(201).send({
             error: false,
-            data,
-        });
+            data
+        })
     },
 
     read: async (req, res) => {
@@ -50,14 +51,13 @@ module.exports = {
             #swagger.summary = "Get Single Pizza"
         */
 
-        const data = await Pizza.findOne({ _id: req.params.id }).populate(
-            "toppings"
-        );
+        const data = await Pizza.findOne({ _id: req.params.id }).populate('toppings')
 
         res.status(200).send({
             error: false,
-            data,
-        });
+            data
+        })
+
     },
 
     update: async (req, res) => {
@@ -66,15 +66,14 @@ module.exports = {
             #swagger.summary = "Update Pizza"
         */
 
-        const data = await Pizza.updateOne({ _id: req.params.id }, req.body, {
-            runValidators: true,
-        });
+        const data = await Pizza.updateOne({ _id: req.params.id }, req.body, { runValidators: true })
 
         res.status(202).send({
             error: false,
             data,
-            new: await Pizza.findOne({ _id: req.params.id }),
-        });
+            new: await Pizza.findOne({ _id: req.params.id })
+        })
+
     },
 
     delete: async (req, res) => {
@@ -83,42 +82,36 @@ module.exports = {
             #swagger.summary = "Delete Pizza"
         */
 
-        const data = await Pizza.deleteOne({ _id: req.params.id });
+        const data = await Pizza.deleteOne({ _id: req.params.id })
 
         res.status(data.deletedCount ? 204 : 404).send({
             error: !data.deletedCount,
-            data,
-        });
+            data
+        })
+
     },
 
-    // Add toppings to Pizza.toppings://normalde ben pizzaya yeni toppings-malzeme eklerken put islemi ile yapabilirdim bu sayede ekleyeceklerimi ekler cikaracaklarimi cikarir tekrar kayit ederdim ama bunun yerine istersem hepsini güncellemek yerine array icinde tutulan toppings-malzemelere push-ekleme ve pull-cikarma ile yeni bir malzeme ekleyip yada cikarabilirim
+    // Add toppings to Pizza.toppings:
     pushToppings: async (req, res) => {
         /*
             #swagger.tags = ["Pizzas"]
             #swagger.summary = "Add Toppings to Pizza"
         */
 
-        const toppings = req.body?.toppings; // bir malzeme ekleyeceksem: ObjectId  birden fazla malzeme eleyeceksem: [ ObjectIds1, ObjectIds2] seklinde push lamaliyim pull yaparken tek-tek cikarmam lazim o nedenle  array seklinde gönderemiyoruz
+        const toppings = req.body?.toppings // ObjectId or [ ObjectIds ]
 
-        //? 1.yöntem
         // const data = await Pizza.findOne({ _id: req.params.id })
         // data.toppings.push(toppings)
         // await data.save()
-        // ?2.yöntem(kisa)
-        const data = await Pizza.updateOne(
-            { _id: req.params.id }, //id si bu olan pizzayi bul
-            { $push: { toppings: toppings } } //db deki toppings array ine body den gelen yeni topping ide pushla-ekle
-        );
-        const newData = await Pizza.findOne({ _id: req.params.id }).populate(
-            "toppings" //db de gäüncellenmis hali ile data
-        );
+        const data = await Pizza.updateOne({ _id: req.params.id }, { $push: { toppings: toppings } })
+        const newData = await Pizza.findOne({ _id: req.params.id }).populate('toppings')
 
         res.status(202).send({
             error: false,
             data,
             toppingsCount: newData.toppings.length,
-            new: newData,
-        });
+            new: newData
+        })
     },
 
     // Remove toppings from Pizza.toppings:
@@ -128,24 +121,19 @@ module.exports = {
             #swagger.summary = "Remove Toppings from Pizza"
         */
 
-        const toppings = req.body?.toppings; // ObjectId
+        const toppings = req.body?.toppings // ObjectId
 
         // const data = await Pizza.findOne({ _id: req.params.id })
         // data.toppings.pull(toppings)
         // await data.save()
-        const data = await Pizza.updateOne(
-            { _id: req.params.id },
-            { $pull: { toppings: toppings } }
-        );
-        const newData = await Pizza.findOne({ _id: req.params.id }).populate(
-            "toppings"
-        );
+        const data = await Pizza.updateOne({ _id: req.params.id }, { $pull: { toppings: toppings } })
+        const newData = await Pizza.findOne({ _id: req.params.id }).populate('toppings')
 
         res.status(202).send({
             error: false,
             data,
             toppingsCount: newData.toppings.length,
-            new: newData,
-        });
+            new: newData
+        })
     },
-};
+}
