@@ -49,13 +49,16 @@ app.all("/", (req, res) => {
     res.send({
         error: false,
         message: "Welcome to PIZZA API",
-        isLogin: req.isLogin,
-        user: req.user,
+        
     });
 });
 
+const auth2 = require("./src/middlewares/authentication");
+
 // user:
 app.use('/users', require('./src/routes/user'))
+// pizza:
+app.use('/pizzas',auth2, require('./src/routes/pizza'))
 /* ------------------------------------------------------- */
 
 // errorHandler:
@@ -65,3 +68,4 @@ app.use(require("./src/middlewares/errorHandler"));
 app.listen(PORT, () => console.log("http://127.0.0.1:" + PORT));
 
 /* ------------------------------------------------------- */
+
