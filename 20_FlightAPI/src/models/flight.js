@@ -55,7 +55,7 @@ const FlightSchema = new mongoose.Schema(
         // },
 
         departureDate: {
-            type: Date,
+            type: Date, //body den bu sekilde göndermelisin "departureDate": "2020-10-01 10:00:00"
             required: true,
         },
 
@@ -72,7 +72,7 @@ const FlightSchema = new mongoose.Schema(
         // },
 
         arrivalDate: {
-            type: Date,
+            type: Date, // body den bu sekilde göndermelisin  arrivalDate: "2020-10-01 12:00:00",
             required: true,
         },
 
