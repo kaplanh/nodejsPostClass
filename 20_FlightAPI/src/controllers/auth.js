@@ -2,7 +2,8 @@
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
-// Auth Controller:
+// Auth Controller: auth controller'inda kullanici url den 
+//http://[::1]:8000/auth/login  veya http://[::1]:8000/auth/refresh veya http://[::1]:8000/auth/logout seklinde bir istek attiginda  req.body den kullanici bilgilerini göndermismi göndermisse bu bilgilerde benim DB de bir kullanici var mi ve hala aktif mi bunlarin kontrollerini yapiyorum eger varsa ona icinde access ve refresh token gönderiyorum  
 
 const jwt = require('jsonwebtoken')
 const setToken = require('../helpers/setToken')

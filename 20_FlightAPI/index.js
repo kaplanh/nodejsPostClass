@@ -40,13 +40,18 @@ app.use(require('./src/middlewares/findSearchSortPage'))
 /* ------------------------------------------------------- */
 // Routes:
 
+
+// NOT app.all('/') ile app.use('/)arasinda ne fark var ?
+// app.all('/'):  /(slash) a gelen tüm metodlar icin
+// app.use('/')// /(slash) ve slash dan sonraki tüm url ler icin
+//* app.all('/*')==app.use('/')//true
 // HomePath:
 app.all('/', (req, res) => {
     res.send({
         error: false,
         message: 'Welcome to FLIGHT RESERVATION API',
         documents: '/documents',
-        user: req.user
+        user: req.user//header icinde gecerli bir token gönderildiyse ve vakti gecmemis  se burada user bilgileri görünecektir aksi taktirde gözükmeyecektir iste burada bize req.user i veren authentication middlewaredir
     })
 })
 

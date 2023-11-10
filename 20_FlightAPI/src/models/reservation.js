@@ -25,33 +25,35 @@ const { mongoose } = require('../configs/dbConnection')
 /* ------------------------------------------------------- */
 // Reservation Model:
 
-const ReservationSchema = new mongoose.Schema({
-	// biz burda bir ucus icin sdc bir reservasion düsündük ama normalde her ucus icin birden fazla reservation olabilir
+const ReservationSchema = new mongoose.Schema(
+    {
+        // biz burda bir ucus icin sdc bir reservasion düsündük ama normalde her ucus icin birden fazla reservation olabilir
 
-	flightId: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Flight',
-		required: true,
-	},
+        flightId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Flight",
+            required: true,
+        },
 
-	// passengers: [
-	// 	{
-	// 		type: mongoose.Schema.Types.ObjectId,
-	// 		ref: 'Passenger',
-	// 		required: true,
-	// 	}
-	// ],
+        // bir reservationda birden  fazla yolcu olabilir ben reservation a passenger gönderirken 2 farkli sekilde gönderebilirim 1.si eger benim passengers tablommda-collection da kayitli olanlariki bunlari id lerini göndererek yapabilirim 2-sisteme kayitli olmayan yeni bir yolcuyu ise passenger modele uygun olacak sekilde istenen bilgileri obje icinde gönderebilirim
+		passengers: [],
+		//normalde asagidaki gibi passenger ler önce passenger tablosuna kaydedilir sonra ordan id ile buraya cagrilir
+        // passengers: [
+        // 	{
+        // 		type: mongoose.Schema.Types.ObjectId,
+        // 		ref: 'Passenger',
+        // 		required: true,
+        // 	}
+        // ],
 
-	// bir reservationda birden  fazla yolcu olabilir ben reservation a passenger gönderirken 2 farkli sekilde gönderebilirim 1.si eger benim passengers tablommda-collection da kayitli olanlariki bunlari id lerini göndererek yapabilirim 2-sisteme kayitli olmayan yeni bir yolcuyu ise passenger modele uygun olacak sekilde istenen bilgileri obje icinde gönderebilirim 
-	passengers: [],
-
-	createdId: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-		required: true,
-	},
-
-}, { collection: 'reservations', timestamps: true })
+        createdId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
+    },
+    { collection: "reservations", timestamps: true }
+);
 
 /* ------------------------------------------------------- */
 module.exports = mongoose.model('Reservation', ReservationSchema)
