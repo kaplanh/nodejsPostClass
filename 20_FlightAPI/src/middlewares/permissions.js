@@ -8,26 +8,37 @@ module.exports = {
 
     isLogin: (req, res, next) => {
 
-        // return next()
-
-        if (req.isLogin) {
+        return next()
+        
+        if (req.user) {
             next()
         } else {
             res.errorStatusCode = 403
             throw new Error('NoPermission: You must login.')
         }
     },
-    
+
     isAdmin: (req, res, next) => {
 
-        // return next()
+        return next()
         
-        if (req.isLogin && req.user.isAdmin) {
+        if (req.user && req.user.isAdmin) {
             next()
         } else {
             res.errorStatusCode = 403
             throw new Error('NoPermission: You must login and to be Admin.')
         }
-    }
+    },
 
+    isStaff: (req, res, next) => {
+
+        return next()
+        
+        if (req.user && (req.user.isAdmin || req.user.isStaff)) {
+            next()
+        } else {
+            res.errorStatusCode = 403
+            throw new Error('NoPermission: You must login and to be Staff.')
+        }
+    },
 }

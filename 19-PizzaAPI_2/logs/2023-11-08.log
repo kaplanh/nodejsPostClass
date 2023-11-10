@@ -1,0 +1,5 @@
+::1 - - [08/Nov/2023:07:52:56 +0000] "POST /auth/login HTTP/1.1" 200 802 "-" "Thunder Client (https://www.thunderclient.com)"
+::1 - - [08/Nov/2023:07:53:31 +0000] "GET /pizzas HTTP/1.1" 200 1150 "-" "Thunder Client (https://www.thunderclient.com)"
+::1 - - [08/Nov/2023:07:54:11 +0000] "GET /toppings HTTP/1.1" 200 801 "-" "Thunder Client (https://www.thunderclient.com)"
+::1 - - [08/Nov/2023:07:54:25 +0000] "GET /toppings HTTP/1.1" 200 801 "-" "Thunder Client (https://www.thunderclient.com)"
+::1 - - [08/Nov/2023:07:56:05 +0000] "GET /pizzas HTTP/1.1" 200 1150 "-" "Thunder Client (https://www.thunderclient.com)"
