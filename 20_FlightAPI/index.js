@@ -64,7 +64,7 @@ app.all('/', (req, res) => {
 // // document:
 // app.use('/documents', require('./src/routes/document'))
 
-// Routes: alttaki 4 üde ayni anlama gelir
+// Routes:
 // app.use('/', require('./src/routes/index.js'))
 // app.use('/', require('./src/routes/index'))
 // app.use('/', require('./src/routes/'))
