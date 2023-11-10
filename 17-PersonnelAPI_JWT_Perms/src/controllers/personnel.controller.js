@@ -26,7 +26,7 @@ module.exports = {
             );
         }
 
-        const data = await Personnel.create(req.body); //gelen yeni kaydi isLead:true olarak kaydet
+        const data = await Personnel.create(req.body); 
 
         res.status(201).send({
             error: false,
