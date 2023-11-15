@@ -46,7 +46,7 @@ const FlightSchema = new mongoose.Schema(
             trim: true,
             required: true,
         },
-        //kalkis-depertureleri citys diye bir tabloda tutut burada sehrin ismini yazmak yerine o sehrin tablodaki id sini cekebilirdim asagidaki gibi
+        //kalkis-depertureleri citys diye bir tabloda tutut burada sehrin ismini yazmak yerine o sehrin tablodaki id sini cekebilirdim asagidaki gibi olmasi gerekende bu normalde
 
         // departure: {
         //     type: mongoose.Schema.Types.ObjectId,

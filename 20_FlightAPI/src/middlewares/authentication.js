@@ -15,5 +15,8 @@ module.exports = (req, res, next) => {
     const accessToken = auth ? auth.split(' ')[1] : null
 
     jwt.verify(accessToken, process.env.ACCESS_KEY, (err, userData) => req.user = userData)
+
+    //Add createdId for all req.body:createdId user tablosu haric diger tüm tablolarda ortak bir field name normalde createdId yi field name ine ihtiyac duyan tablonun controlleri icinde create icine gidip req.body.createdId =req.user._id yazmam gerekiyordu fakat biz dedikki öyle bir yere yazalim ki her controller a tek tek yazmak zorunda kalmayalim bir yere yazalim hepsine ordan ulasssin her yere eklenmis olsun bu noktada aklimiza authentication middleware i geldi cünkü bu middleware jwt icindeki user bilgisine ulasabiliyor user verisini yakalamisken req.body e createdId yi ekleyelim bu sayede tüm modellere eklemis olduk
+    req.body.createdId=req.user?._id
     next()
 }
