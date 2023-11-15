@@ -37,7 +37,7 @@ const ReservationSchema = new mongoose.Schema(
 
         // bir reservationda birden  fazla yolcu olabilir ben reservation a passenger gönderirken 2 farkli sekilde gönderebilirim 1.si eger benim passengers tablommda-collection da kayitli olanlariki bunlari id lerini göndererek yapabilirim 2-sisteme kayitli olmayan yeni bir yolcuyu ise passenger modele uygun olacak sekilde istenen bilgileri obje icinde gönderebilirim
 		passengers: [],
-		//normalde asagidaki gibi passenger ler önce passenger tablosuna kaydedilir sonra ordan id ile buraya cagrilir
+		//normalde asagidaki gibi passenger ler önce passenger tablosuna kaydedilir sonra ordan id ile buraya cagrilir asagidaki gibi yazarsak populete de calisir ama bu sekilde yazarsak obje formatinda veri gönderemem o nedenle yukardaki gibi yazip detayi görmek istersem controller yazmam gerekecek bizde burda o sekilde yaptik
         // passengers: [
         // 	{
         // 		type: mongoose.Schema.Types.ObjectId,
