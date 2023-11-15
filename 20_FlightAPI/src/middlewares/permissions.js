@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
@@ -8,7 +8,7 @@
 module.exports = {
     // mutlaka bir kullanici girisi bekledim yerlere
     isLogin: (req, res, next) => {
-        if (process.env.NODE_ENV == "development") return next();
+        if (process.env.NODE_ENV == "development") return next(); //production ortaminda degilsem yani development asamasinda iken permissionlari uygulamadan bir sonraki asamaya gecmesi icin bu kodu yazdik
 
         if (req.user) {
             next();
@@ -19,8 +19,7 @@ module.exports = {
     },
     // calisan veya admin in baglanabileci yerler icin
     isStaffOrAdmin: (req, res, next) => {
-        if (process.env.NODE_ENV == "development") return next();
-
+        if (process.env.NODE_ENV == "development") return next(); //production ortaminda degilsem yani development asamasinda iken permissionlari uygulamadan bir sonraki asamaya gecmesi icin bu kodu yazdik
         if (req.user && (req.user.isStaff || req.user.isAdmin)) {
             next();
         } else {
@@ -32,7 +31,7 @@ module.exports = {
     //sadece admin in baglanabileci yerler icin
 
     isAdmin: (req, res, next) => {
-        if (process.env.NODE_ENV == "development") return next();
+        if (process.env.NODE_ENV == "development") return next(); //production ortaminda degilsem yani development asamasinda iken permissionlari uygulamadan bir sonraki asamaya gecmesi icin bu kodu yazdik
 
         if (req.user && req.user.isAdmin) {
             next();
