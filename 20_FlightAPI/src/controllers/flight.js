@@ -20,7 +20,8 @@ module.exports = {
                 </ul>
             `
         */
-
+        
+        
         const data = await res.getModelList(Flight);
 
         res.status(200).send({
@@ -43,6 +44,7 @@ module.exports = {
             }
         */
 
+        // req.body.createdId = req.user._id
         const data = await Flight.create(req.body);
 
         res.status(201).send({
