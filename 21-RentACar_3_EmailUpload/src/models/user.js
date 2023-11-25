@@ -1,3 +1,5 @@
+
+
 "use strict"
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
@@ -81,6 +83,10 @@ const UserSchema = new mongoose.Schema({
 
 const passwordEncrypt = require('../helpers/passwordEncrypt')
 
+
+// *kaydetmeden önce bu fonksiyonu calistir diyoruz burdaki fonksiyon arrow fonksiyon olamaz cünkü arrow fonksiyonda this global scobe a isaret ediyor
+// *NOT:pre('init') middleware degil fakat  pre('save') bir middleware o nedenlede next kavrami var asgidada görüldügü üzere
+
 // save: Only Create
 UserSchema.pre(['save', 'updateOne'], function(next) {
 
@@ -88,27 +94,31 @@ UserSchema.pre(['save', 'updateOne'], function(next) {
     // if process is updateOne, data will receive in "this._update"
     const data = this?._update || this
 
+    // *regex kodu asagidaki gibide yazilabilir fakat burda / yerine // yazmamiz gerekiyor
     // const emailRegExp = new RegExp("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$")
     // const isEmailValidated = emailRegExp.test(data.email)
     // const isEmailValidated = RegExp("^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$").test(data.email)
     const isEmailValidated = data.email
         ? /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(data.email) // test from "data".
-        : true
+        : true    
+    https://regexr.com/ regx kodunun dogrulugunu test etmek icin
 
-    if (isEmailValidated) {
+    if (isEmailValidated) {//*kullanicinin girdigi email regex den gecti ise
 
         if (data?.password) {
+            
 
-            const isPasswordValidated = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&].{8,}$/.test(data.password)
-        
+            const isPasswordValidated =
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&].{8,}$/.test(
+                    data.password
+                );
+
             if (isPasswordValidated) {
-                
-                this.password = data.password = passwordEncrypt(data.password)
-                this._update = data // updateOne will wait data from "this._update".
-                
+                ////*kullanicinin girdigi password regex den gecti ise
+                this.password = data.password = passwordEncrypt(data.password);//*paswordümü sifrele ondan sonra db ye kaydet
+                this._update = data; // updateOne will wait data from "this._update".
             } else {
-                
-                next( new Error('Password not validated.') )
+                next(new Error("Password not validated.")); //*kullanicinin girdigi password regex den gecmedi ise next() icinde hata gönder
             }
         }
 
@@ -116,7 +126,7 @@ UserSchema.pre(['save', 'updateOne'], function(next) {
 
     } else {
         
-        next( new Error('Email not validated.') )
+        next( new Error('Email not validated.') )//*kullanicinin girdigi email regex den gecmedi ise
     }
 })
 

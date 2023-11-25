@@ -8,6 +8,7 @@ const User = require('../models/user')
 const Token = require('../models/token')
 
 module.exports = async (req, res, next) => {
+    // ?piyasada bu isimlerlede karsilasabiliriz
 
     // Authorization: Token ...
     // Authorization: ApiKey ...
@@ -24,3 +25,6 @@ module.exports = async (req, res, next) => {
 
     next()
 }
+
+
+// kullanici login olup token i aldiktan sonra token ile ziyaret etmesi gereken url ler icin headers altinda authorization karsisinda Token ….Token_Key…. Gönderecek bosluktan split ederek  token tablosundaki token ile ayni ise next() ile bir sonraki isleme devam edecegiz

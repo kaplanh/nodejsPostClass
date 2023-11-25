@@ -27,7 +27,7 @@ module.exports = {
         // Only self records. except admin:
         if (!req?.user.isAdmin) filters.userId = req.user._id
 
-        const data = await res.getModelList(Reservation, filters, ['userId', 'carId'])
+        const data = await res.getModelList(Reservation, filters, ['userId', 'carId'])//user ve car in sadece id leri degilde o id deki alt bilgileride görmek icin 
 
         res.status(200).send({
             error: false,
@@ -91,7 +91,7 @@ module.exports = {
         // Only self records. except admin:
         if (!req?.user.isAdmin) filters.userId = req.user._id
 
-        const data = await Reservation.findOne({ _id: req.params.id, ...filters }).populate(['userId', 'carId'])
+        const data = await Reservation.findOne({ _id: req.params.id, ...filters }).populate(['userId', 'carId'])//user ve car in sadece id leri degilde o id deki alt bilgileride görmek icin 
 
         res.status(200).send({
             error: false,

@@ -27,7 +27,10 @@ module.exports = {
         let filters = {}
 
         // Show only isPublish=true cars. Except Admin.
+        // kullanimda olan arabalari admin haricindeki herkes görsün
+        // ?1.yazim sekli
         // if (!req.user?.isAdmin) filters = { isPublish: true }
+        // ?2.yazim sekli
         if (!req.user?.isAdmin) filters.isPublish = true
 
         // List with date filter:

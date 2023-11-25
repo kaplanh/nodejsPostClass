@@ -9,6 +9,7 @@ const Token = require('../models/token')
 module.exports = {
 
     list: async (req, res) => {
+        // token swagger a dahil edilmez o nedenlede controller daki CRUD islemlerinin her birinin altina asagidaki ifadeyi ekliyoruz
         // #swagger.ignore = true
 
         const data = await res.getModelList(Token)

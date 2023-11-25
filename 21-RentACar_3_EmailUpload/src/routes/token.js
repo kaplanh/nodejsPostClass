@@ -11,7 +11,7 @@ const token = require('../controllers/token')
 
 // URL: /tokens
 
-router.use(permissions.isAdmin)
+router.use(permissions.isAdmin)//token tablosunda sadece admin islem yapabilir
 
 router.route('/')
     .get(token.list)

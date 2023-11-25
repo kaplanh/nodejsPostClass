@@ -69,7 +69,7 @@ const CarSchema = new mongoose.Schema({
         required: true,
     },
 
-    isPublish: {
+    isPublish: {//araba kaza yapmis veya baska sebebiyle beklemede olabilir o nedenle yayinda veya degil anlaminda
         type: Boolean,
         default: true
     },

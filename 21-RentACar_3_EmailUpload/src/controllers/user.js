@@ -54,7 +54,7 @@ module.exports = {
         */
 
         // Disallow set admin:
-        req.body.isAdmin = false
+        req.body.isAdmin = false//kullanici create olurken kendini admin yapmasin diye 
 
         const data = await User.create(req.body)
 
@@ -91,6 +91,9 @@ module.exports = {
             #swagger.summary = "Get Single User"
         */
 
+        // ?eger bu user adminse tüm users lari admin degilse sadece kendi bilgilerini görebilsinin uzun yolu 
+        // not:users/ dan sonra kimin id sini yazarsa yazsin kendi bilgilerini görecek
+
         // Filters:
         // if (req.user.isAdmin) {
         //     let filters = {}
@@ -98,15 +101,17 @@ module.exports = {
         //     let filters = { _id: req.user._id }
         // }
         // Only self record:
-        let filters = {}
-        if (!req.user?.isAdmin) filters = { _id: req.user._id }
+        // ?eger bu user adminse tüm users lari admin degilse sadece kendi bilgilerini read leyebilsinnin kisa yolu
 
-        const data = await User.findOne({ _id: req.params.id, ...filters })
+        let filters = {};
+        if (!req.user?.isAdmin) filters = { _id: req.user._id };
+
+        const data = await User.findOne({ _id: req.params.id, ...filters });
 
         res.status(200).send({
             error: false,
-            data
-        })
+            data,
+        });
     },
 
     update: async (req, res) => {
@@ -130,10 +135,10 @@ module.exports = {
         let filters = {}
         if (!req.user?.isAdmin) {
             filters = { _id: req.user._id }
-            req.body.isAdmin = false
+            req.body.isAdmin = false//güncellerken kendini admin yapmasin diye 
         }
 
-        const data = await User.updateOne({ _id: req.params.id, ...filters }, req.body, { runValidators: true })
+        const data = await User.updateOne({ _id: req.params.id, ...filters }, req.body, { runValidators: true })//modeldeki validatör sadece create() de calisiyor bu validation un update() de calismasi icin 3.parametre olarak {runValidators:true} bunuda eklemliyiz
 
         res.status(200).send({
             error: false,
