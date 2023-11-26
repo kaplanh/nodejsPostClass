@@ -24,33 +24,39 @@ module.exports = {
         */
 
         // Filters:
-        let filters = {}
+        let filters = {};
 
         // Show only isPublish=true cars. Except Admin.
         // kullanimda olan arabalari admin haricindeki herkes görsün
         // ?1.yazim sekli
         // if (!req.user?.isAdmin) filters = { isPublish: true }
         // ?2.yazim sekli
-        if (!req.user?.isAdmin) filters.isPublish = true
+        if (!req.user?.isAdmin) filters.isPublish = true;
 
         // List with date filter:
         // http://127.0.0.1:8000/cars?start=2023-10-13&end=2023-10-18
-        const { start: getStartDate, end: getEndDate } = req.query
-
+        const { start: getStartDate, end: getEndDate } = req.query; //url den user in reserve etmek istedigi tarihlerini start ve end key leri ile query olarak alarak alip key isimlerini tekrar tanimlayip baslangic tarihini  start: getStartDate, bitis tarihini  end: getEndDate sekline ceviriyoruz
+        // not:bu verileri body den de alabiliriz ama biz url i tercih ettik
         if (getStartDate && getEndDate) {
-
-            const reservedCars = await Reservation.find({
-                $nor: [
-                    { startDate: { $gt: getEndDate } },
-                    { endDate: { $lt: getStartDate } }
-                ]
-            }, { _id: 0, carId: 1 }).distinct('carId')
+            //baslangic ve bitis tarihleri varsa
+            const reservedCars = await Reservation.find(
+                {
+                    //$or deseydik bu aralikta müsait olan arabalar gelecekti $nor ile reserve edilmis müsait olmayan arabalar listelenecektir
+                    $nor: [
+                        { startDate: { $gt: getEndDate } }, // reservation tablosundaki startDate:arabanin mesgul olmaya baslangi tarih, getEndDate:user in arabayi kiralamak istedigi bitis tarihinden büyük olanlari getir, veya
+                        { endDate: { $lt: getStartDate } }, // reservation tablosundaki  endDate:arabanin mesgul olma bitis tarihi,getStartDate:user in kiralamak istedigi tarihin baslangic tarihinden kücük olanlari getir
+                    ],
+                },
+                { _id: 0, carId: 1 } //tüm objeyi degilde sadece ilgili arabanin id si gelsin demek icin 3.parametre olarak istemedigimize 0,istedigimize 1 yaziyoruz
+            ).distinct("carId");
             /*
-            distinct() convert from:
-            [
+            distinct() convert from://distinct her kayidi array icinde 1 defa getirir
+            distinct('carId) yazmayinca bize veriler asagidaki gibi geliyorlar ama bu durumda  filtreleme yapamyorum $in ile islem yapamiyorum 
                 { carId: new ObjectId("65352f518a9ea121b1ca5001") },
                 { carId: new ObjectId("65352f518a9ea121b1ca5002") }
             ]
+            o nedenle  distinct('carId) ekliyorum ve artik veriler asagidaki gibi geliyor
+            [
             to:
             [
                 new ObjectId("65352f518a9ea121b1ca5001"),
@@ -58,18 +64,19 @@ module.exports = {
             ]
             */
             if (reservedCars.length) {
-                filters._id = { $nin: reservedCars }
+                //reserv edilmis arabalar varsa
+                filters._id = { $nin: reservedCars }; //reserve edilmemis yani reservedCars bu arabalar disindakilerin id lerini al filters._id e at
             }
             // console.log(filters)
         }
 
-        const data = await res.getModelList(Car, filters)
+        const data = await res.getModelList(Car, filters);
 
         res.status(200).send({
             error: false,
             details: await res.getModelListDetails(Car, filters),
-            data
-        })
+            data,
+        });
     },
 
     // CRUD:
@@ -92,8 +99,8 @@ module.exports = {
 
         if (req?.user) {
             // Set userIds from login info:
-            req.body.createdId = req.user._id
-            req.body.updatedId = req.user._id
+            req.body.createdId = req.user._id//Car tablosunda otomatikmen createdId ve 
+            req.body.updatedId = req.user._id//updatedId ye otomatik userId  atadik ama güncellemede sadece updatedId ye user id atayacagiz
         }
 
         const data = await Car.create(req.body)
@@ -142,7 +149,7 @@ module.exports = {
 
         if (req?.user) {
             // Set userIds from login info:
-            req.body.updatedId = req.user._id
+            req.body.updatedId = req.user._id//user varsa güncelleme yaparken güncelleme yapan user in userId sini updatedId ye otomatik ekle
         }
 
         const data = await Car.updateOne({ _id: req.params.id }, req.body, { runValidators: true })

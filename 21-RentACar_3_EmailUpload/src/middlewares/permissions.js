@@ -10,7 +10,7 @@ module.exports = {
 
         // any User:
         if (req.user && req.user.isActive) {
-            //jwt de isActive kontrolüne gerek olmayabilir ama burda yapmak iyi olur
+            //jwt de isActive kontrolüne gerek yok ama burda yapmaliyiz
             next();
         } else {
             res.errorStatusCode = 403;

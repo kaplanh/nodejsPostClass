@@ -58,7 +58,7 @@ module.exports = {
 
         const data = await User.create(req.body)
 
-        /* TOKEN */
+        /* TOKEN  kullanici bir user create ederken ona token vermek icin*/
         let tokenKey = passwordEncrypt(data._id + Date.now())
         let tokenData = await Token.create({ userId: data._id, token: tokenKey })
         /* TOKEN */

@@ -25,7 +25,7 @@ module.exports = {
         // Filters:
         let filters = {}
         // Only self records. except admin:
-        if (!req?.user.isAdmin) filters.userId = req.user._id
+        if (!req?.user.isAdmin) filters.userId = req.user._id//adminse tümünü listeleyebilirken admin olmayan sadece kendi kayitlarini görmesi icin
 
         const data = await res.getModelList(Reservation, filters, ['userId', 'carId'])//user ve car in sadece id leri degilde o id deki alt bilgileride görmek icin 
 
@@ -51,9 +51,11 @@ module.exports = {
         */
 
         // get userId from loginedUser.
-        req.body.userId = req?.user._id;
+        req.body.userId = req?.user._id;//reservation create ederken userId yi otomatik olarak  alsin
 
         // Check new reservations date in exists reservations:
+
+        
         const userReservationInDates = await Reservation.findOne({
             userId: req.body.userId,
             $nor: [
@@ -63,12 +65,13 @@ module.exports = {
         })
 
         if (userReservationInDates) {
+            // ayni tarihlerde bir reservation varsa kullanici yeni reservation yapamasin yoksa yapsin demek icin
 
-            res.errorStatusCode = 400
+            res.errorStatusCode = 400;
             throw new Error(
-                'It cannot be added because there is another reservation with the same date.',
+                "It cannot be added because there is another reservation with the same date.",
                 { cause: { userReservationInDates: userReservationInDates } }
-            )
+            );
         } else {
             
             const data = await Reservation.create(req.body)
@@ -87,16 +90,19 @@ module.exports = {
         */
 
         // Filters:
-        let filters = {}
+        let filters = {};
         // Only self records. except admin:
-        if (!req?.user.isAdmin) filters.userId = req.user._id
+        if (!req?.user.isAdmin) filters.userId = req.user._id; //adminse herkesi özel olarak bilgilerine bakabilecekken  admin olmayan sadece kendi bilgilerini görmesi icin
 
-        const data = await Reservation.findOne({ _id: req.params.id, ...filters }).populate(['userId', 'carId'])//user ve car in sadece id leri degilde o id deki alt bilgileride görmek icin 
+        const data = await Reservation.findOne({
+            _id: req.params.id,
+            ...filters,
+        }).populate(["userId", "carId"]); //user ve car in sadece id leri degilde o id deki alt bilgileride görmek icin
 
         res.status(200).send({
             error: false,
-            data
-        })
+            data,
+        });
     },
 
     update: async (req, res) => {
