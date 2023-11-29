@@ -1,16 +1,15 @@
-"use strict"
+"use strict";
 /* -------------------------------------------------------
     NODEJS EXPRESS | CLARUSWAY FullStack Team
 ------------------------------------------------------- */
 // User Controller:
 
-const User = require('../models/user')
-const Token = require('../models/token')
-const passwordEncrypt = require('../helpers/passwordEncrypt')
-const sendMail = require('../helpers/sendMail')
+const User = require("../models/user");
+const Token = require("../models/token");
+const passwordEncrypt = require("../helpers/passwordEncrypt");
+const sendMail = require("../helpers/sendMail");
 
 module.exports = {
-
     list: async (req, res) => {
         /*
             #swagger.tags = ["Users"]
@@ -25,13 +24,13 @@ module.exports = {
             `
         */
 
-        const data = await res.getModelList(User)
+        const data = await res.getModelList(User);
 
         res.status(200).send({
             error: false,
             details: await res.getModelListDetails(User),
-            data
-        })
+            data,
+        });
     },
 
     // CRUD:
@@ -54,13 +53,16 @@ module.exports = {
         */
 
         // Disallow set admin:
-        req.body.isAdmin = false//kullanici create olurken kendini admin yapmasin diye 
+        req.body.isAdmin = false; //kullanici create olurken kendini admin yapmasin diye
 
-        const data = await User.create(req.body)
+        const data = await User.create(req.body);
 
         /* TOKEN  kullanici bir user create ederken ona token vermek icin*/
-        let tokenKey = passwordEncrypt(data._id + Date.now())
-        let tokenData = await Token.create({ userId: data._id, token: tokenKey })
+        let tokenKey = passwordEncrypt(data._id + Date.now());
+        let tokenData = await Token.create({
+            userId: data._id,
+            token: tokenKey,
+        });
         /* TOKEN */
 
         /* SENDMAIL to NewUSer */
@@ -68,21 +70,33 @@ module.exports = {
             // user email:
             data.email,
             // Subject:
-            'Welcome',
+            "Welcome",
             // Message:
+            //? local icin 
+            // `
+            //     <p>Welcome to our system</p>
+            //     Bla bla bla...
+            //     Verify Email: http://127.0.0.1:8000/users/verify/?id=${
+            //         data._id
+            //     }&verifyCode=${passwordEncrypt(data.email)}
+               
+            // `
+            // ?vercel üzerinden baskalari icin
             `
                 <p>Welcome to our system</p>
-                Bla bla bla...
-                Verify Email: http://127.0.0.1:8000/users/verify/?id=${data._id}&verifyCode=${passwordEncrypt(data.email)}
+                Bla bla bla...                
+                Verify Email:  https://mern-stack-block-app.vercel.app/users/verify/?id=${
+                    data._id
+                }&verifyCode=${passwordEncrypt(data.email)}
             `
-        )
+        );
         /* SENDMAIL to NewUSer */
 
         res.status(201).send({
             error: false,
             token: tokenData.token,
-            data
-        })
+            data,
+        });
     },
 
     read: async (req, res) => {
@@ -91,7 +105,7 @@ module.exports = {
             #swagger.summary = "Get Single User"
         */
 
-        // ?eger bu user adminse tüm users lari admin degilse sadece kendi bilgilerini görebilsinin uzun yolu 
+        // ?eger bu user adminse tüm users lari admin degilse sadece kendi bilgilerini görebilsinin uzun yolu
         // not:users/ dan sonra kimin id sini yazarsa yazsin kendi bilgilerini görecek
 
         // Filters:
@@ -132,19 +146,23 @@ module.exports = {
         */
 
         // Only self record:
-        let filters = {}
+        let filters = {};
         if (!req.user?.isAdmin) {
-            filters = { _id: req.user._id }
-            req.body.isAdmin = false//güncellerken kendini admin yapmasin diye 
+            filters = { _id: req.user._id };
+            req.body.isAdmin = false; //güncellerken kendini admin yapmasin diye
         }
 
-        const data = await User.updateOne({ _id: req.params.id, ...filters }, req.body, { runValidators: true })//modeldeki validatör sadece create() de calisiyor bu validation un update() de calismasi icin 3.parametre olarak {runValidators:true} bunuda eklemliyiz
+        const data = await User.updateOne(
+            { _id: req.params.id, ...filters },
+            req.body,
+            { runValidators: true }
+        ); //modeldeki validatör sadece create() de calisiyor bu validation un update() de calismasi icin 3.parametre olarak {runValidators:true} bunuda eklemliyiz
 
         res.status(200).send({
             error: false,
             data,
-            new: await User.findOne({ _id: req.params.id })
-        })
+            new: await User.findOne({ _id: req.params.id }),
+        });
     },
 
     delete: async (req, res) => {
@@ -153,43 +171,30 @@ module.exports = {
             #swagger.summary = "Delete User"
         */
 
-        const data = await User.deleteOne({ _id: req.params.id })
+        const data = await User.deleteOne({ _id: req.params.id });
 
         res.status(data.deletedCount ? 204 : 404).send({
             error: !data.deletedCount,
-            data
-        })
-
+            data,
+        });
     },
 
     verify: async (req, res) => {
+        const { id: _id, verifyCode } = req.query;
 
-        const { id: _id, verifyCode } = req.query
+        const user = await User.findOne({ _id });
 
-        const user = await User.findOne({ _id })
-
-        if (
-            user &&
-            verifyCode == passwordEncrypt(user.email)
-        ) {
-
-            await User.updateOne({ _id }, { emailVerified: true })
-            sendMail(
-                user.email,
-                'Email Verified',
-                'Email Verified',
-            )
+        if (user && verifyCode == passwordEncrypt(user.email)) {
+            await User.updateOne({ _id }, { emailVerified: true });
+            sendMail(user.email, "Email Verified", "Email Verified");
 
             res.status(200).send({
                 error: false,
-                message: 'Email Verified'
-            })
-
+                message: "Email Verified",
+            });
         } else {
-            res.errorStatusCode = 402
-            throw new Error('User Not Found.')
+            res.errorStatusCode = 402;
+            throw new Error("User Not Found.");
         }
-
-    }
-
-}
+    },
+};
