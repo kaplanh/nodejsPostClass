@@ -36,7 +36,8 @@ router.route('/')
     // .post(permissions.isAdmin, car.create)
     // .post(permissions.isAdmin, upload.single('images'), car.create) // req.file
     .post(permissions.isAdmin, upload.array('images'), car.create) // req.files // recommended.
-    // .post(permissions.isAdmin, upload.any(), car.create) // req.files
+// .post(permissions.isAdmin, upload.any(), car.create) // req.files
+    // Form enctype attribute ==> https://www.w3schools.com/tags/att_form_enctype.asp
 
 router.route('/:id')
     .get(car.read)

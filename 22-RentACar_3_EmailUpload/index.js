@@ -28,6 +28,9 @@ dbConnection();
 
 // Accept JSON:
 app.use(express.json());
+// NOT:statik dosyalari oldugu gibi cagiramayiz cagirmak icin index.js  de express.static("dosyaadi") kullanmamiz lazim  // Call static uploadFile:
+// Static dosyalar:PNG,JPEG,GIF,JS,CSS yani express.js uygulamasinda olmayan hersey 
+app.use("/img", express.static("./upload"));//http://127.0.0.1:8000/img geldiginde resim gelecektir
 
 // Call static uploadFile:
 app.use("/img", express.static("./upload"));

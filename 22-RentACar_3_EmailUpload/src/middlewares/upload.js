@@ -11,9 +11,10 @@ const multer = require('multer')
 
 module.exports = multer({ // middleware
     storage: multer.diskStorage({
-        destination: './upload/',
-        filename: function(req, file, returnCallback) {
-            returnCallback(null, file.originalname)
-        }
+        destination: './upload/',//hangi klasör icine upload edeyim
+        filename: function(req, file, returnCallback) {//hangi isimde kaydedeyim
+//not:piyasada returnCallback yerine cb yazilir anlasilsin diye burda böyle yazdik
+           //returnCallback(err, file.originalname)// err istemedigimiz icin 
+            returnCallback(null, file.originalname) //kendi orj isminde       }
     })
 })

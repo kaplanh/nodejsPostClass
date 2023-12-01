@@ -12,7 +12,7 @@ const User = require("../models/personnel.model");
 // ?4-module.exports deyip süslüyü aciyor ve login,refresh ve logout metodlarini yaziyoruz
 module.exports = {
     login: async (req, res) => {
-        const { username, password } = req.body; //*username&password girilmismi
+        const { username, password } = req.body; //*username&password girilmis mi
 
         if (username && password) {
             const user = await User.findOne({ username, password }); //*girilmisse DB deki User model-tablosundan bu bilgileri barindiran useri bul getir
