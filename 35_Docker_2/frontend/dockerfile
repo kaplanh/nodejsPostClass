@@ -4,11 +4,12 @@ FROM node:20.9.0-alpine3.18
 WORKDIR /frontend
 
 COPY . .
-
+#pnpm i yapmadan önce pnpm yoksa diye npm den önce onu indirsin diyoruz
 RUN npm i -g pnpm
 RUN pnpm i
 
 CMD ["npm", "start"]
+# VITE nin port u 5173
 EXPOSE 5173
 
 # --------------------------------
