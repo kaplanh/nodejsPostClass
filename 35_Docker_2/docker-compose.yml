@@ -1,18 +1,25 @@
 version: "3.9" # opsiyonel.
-
+#asagidaki servislerimi ayaga kaldir 1-frontend 2 backend
 services:
 
     frontend:
+    #container name vermezsem frontend i alir
         # container_name: frontend (default: keyName)
+
+        # hubdan alacagim hazir bir image olursa image:node gibi yazip build komutuna ihtiyac kalmaz ama yeni bir image yapacaksam build ve image ismini yazmam gerek
+        # not:degerler 'docker-compose-frontend' icindede yazilabilir
+        # ayni isimde image varsa build etmeyecektir
         image: docker-compose-frontend
         build: ./frontend
         ports:
+        #birden fazla port tanimlayabilirim
             # dış/iç port numaraları
             - 5173:5173
             - 3000:5173
             - 80:5173
         restart: on-failure # hata anında tekrar çalıştır.
         depends_on:
+        # frontend projemin calisabilmesi icin önce backend calismasi lzim o nedenle
             # önce aşağıdakileri çalıştır.
             - backend # aşağıda tanımlandı.
 
@@ -24,6 +31,7 @@ services:
         restart: on-failure
         volumes:
             # fiziksel yollar (external:internal)
+            # container i acip yeni girdiler yapip kapadigimizda yeniden actigimizda bu girdiler silinir görünmez bunlar silinmesin docker image de  da eklensin diye asagidaki kodlarida eklemeliyiz
             - $PWD/backend/logs:/backend/logs
             - $PWD/backend/upload:/backend/upload
 
