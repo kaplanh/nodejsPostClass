@@ -133,6 +133,8 @@ db.coll.find().skip(5).limit(5); //ilk 5 kayittan sonraki 5 kayidi getir
 // Sort (1:ASC, -1:DESC):
 db.coll.find().sort({ age: -1 }).limit(5); //yasa göre ters sirala ve ilk 5 i göster
 // Count:
+db.coll.count(); // kac kayit var 4 
+// veya 
 db.coll.find().count(); // kac kayit var 4
 db.coll.countDocuments(); // ShortHand find().count()
 db.coll.countDocuments({ firstName: "Test" });
@@ -165,6 +167,7 @@ db.coll.updateMany(
         /* all */
     },
     { $inc: { age: 2 } }
+    // { $inc: { age: -2 } }
 ); // increment (age+2) field
 db.coll.updateMany(
     {
