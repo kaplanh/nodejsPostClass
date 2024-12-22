@@ -103,11 +103,11 @@ console.log( Car.arrowFunc() )
 
 const testArray = [ 'value0', 'value1', 'value2', 'value3' ]
 const arr1 = testArray;
-console.log(arr1===testArray)//true  gölge copy yaptik yani heap kisminda  ayni yeri refere ettik
+console.log(arr1===testArray)//*true  gölge copy yaptik yani heap kisminda  ayni yeri refere ettik
 
 const arr2 = [...testArray]
 console.log(arr2);
-console.log(arr2===testArray)//false deepcopy yaptik stack dede heap dede farkli yerler tuttugu icin
+console.log(arr2===testArray)//*false deepcopy yaptik stack dede heap dede farkli yerler tuttugu icin
 
 // const var0 = testArray[0]
 // const var1 = testArray[1]

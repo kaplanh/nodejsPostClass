@@ -71,8 +71,6 @@
 //?disardan gelen bu parametreleri this e aktarmak zorundayiz
 //?constructor olusturduktan sonra artik ben yeni bir instance olustururken class i ma bu sekilde const instance = new PascalNamedClassName('parameter-1-value', 'parameter-2-value') argüman gönderebilirim
 
-
-
 // const PascalNamedClassName2 = class {
 //     undefinedProperty;
 //     extraField = "field-value";
@@ -487,31 +485,29 @@ console.log(mag1.getSummaryParent()) //? parent tan gelen method dolaylı yoldan
 
 // *örnek
 class Vehicle {
-
-    vehicleIsActive = false // PUBLIC PROPERTY
-    _protectedProp = true // PROTECTED PROPERTY
-    #privateProp = true // PRIVATE PROPERTY
+    vehicleIsActive = false; // PUBLIC PROPERTY
+    _protectedProp = true; // PROTECTED PROPERTY
+    #privateProp = true; // PRIVATE PROPERTY
 
     constructor(vehicleType) {
-        this.vehicleType = vehicleType
+        this.vehicleType = vehicleType;
     }
     // Override yapma lütfen:
     _protectedMethod() {
-        console.log('Vehicle protectedMethod çalıştı')
-        return true
+        console.log("Vehicle protectedMethod çalıştı");
+        return true;
     }
     #privateMethod() {
-        console.log('Vehicle privateMethod çalıştı')
-        return true
+        console.log("Vehicle privateMethod çalıştı");
+        return true;
     }
 
     getDetails() {
-        console.log('Vehicle getDetails çalıştı')
-        console.log('privateProp', this.#privateProp)
-        console.log(this.#privateMethod())
+        console.log("Vehicle getDetails çalıştı");
+        console.log("privateProp", this.#privateProp);
+        console.log(this.#privateMethod());
     }
 }
-
 
 class Car extends Vehicle {
     isRunning = false;
@@ -531,16 +527,26 @@ class Car extends Vehicle {
 
     // getDetails() {
     //     console.log("Car getDetails çalıştı");
+    //? JS PUBLIC: Genel erişime açık.
+    // console.log("publicProp", this.vehicleIsActive);
+    //? JS PRIVATE: Sadece tanımlı olduğu class içinde erişim var.
     //     console.log( 'privateProp', this.#privateProp ) // NO ACCESS
     //     console.log( this.#privateMethod() ) // NO ACCESS
     //     console.log( 'privateProp', super.#privateProp ) // NO ACCESS
     //     console.log( super.#privateMethod() ) // NO ACCESS
+    //? JS PROTECTED: Sadece Tanımlı olduğu class ve Inherit edilen child-class erişebilir.
+    // console.log("_protectedProp", this._protectedProp);
+    // console.log(this._protectedMethod());
+    // console.log("_protectedProp", super._protectedProp);
+    // console.log(super._protectedMethod());
     // }
 }
 
-const ford = new Car('Ford', 'Mustang', 1967, 'SUV')
-console.log ( ford )
-console.log ( ford.getDetails() )
+const ford = new Car("Ford", "Mustang", 1967, "SUV");
+console.log(ford);
+console.log(ford.getDetails());
+console.log(ford._protectedProp);
+console.log(ford._protectedMethod());
 // console.log ( ford.#privateProp ) // NO ACCESS
 
 /* ------------------------------------------------------- */
@@ -616,16 +622,12 @@ class Car {
     //? Static methodlarda this ifadesi sadece statikleri çağırır.
     static staticMethod() {
         console.log("Static Method çalıştı");
-        return this;//statik metod icindeki this sadece statik metod icindeki verileri verir
+        return this; //statik metod icindeki this sadece statik metod icindeki verileri verir
     }
 }
 
-
-
 // const ford = new Car('Ford', 'Mustang', 1967)
 // console.log(ford)
-
-
 
 // console.log( ford.getPrice )
 // // ford.price(5000) // CLassic method // NO ACCESS
@@ -649,7 +651,3 @@ class Car {
 // /* ------------------------------------------------------- */
 
 // //* HAPPY CODDING :)
-
-
-
-
