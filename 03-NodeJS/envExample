@@ -1,0 +1,5 @@
+NODE_ENV = production
+ENV_HOST = 127.0.0.1
+ENV_PORT = 8000 #Comment
+ENV_EXAMPLE_STR = 'Hello World'
+ENV_EXAMPLE_TXT = "Zero One True Three"
