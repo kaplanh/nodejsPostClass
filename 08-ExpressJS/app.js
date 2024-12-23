@@ -66,6 +66,9 @@ const PORT = process.env?.PORT || 8000;
 
 app.get("/", (req, res) => res.send("in 'root' path")); // '/' == root
 app.get("/path", (req, res) => res.send("in 'path'")); // '/path' == '/path/'
+
+//*for regex:regular expression: https://regexr.com/
+
 //? express-urls supported JokerChar:
 app.get("/abc(x?)123", (req, res) => res.send("in 'abc(x?)123'")); // abc123 or abcx123
 app.get("/abc(x+)123", (req, res) => res.send("in 'abc(x+)123'")); // abcx123 or abcxx..xx123
@@ -107,7 +110,7 @@ app.get(/xyz$/, (req, res) => res.send("regexp /xyz$/")); // url endswith = 'xyz
 //         params: req.params
 //     })
 // })
-// app.get('/user/:userId(\\w+)', (req, res) => {//userId yi sayiya  zorladik
+// app.get('/user/:userId(\\w+)', (req, res) => {//userId yi karaktere zorladik
 //     res.send({
 //         params: req.params
 //     })
