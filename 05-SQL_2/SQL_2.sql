@@ -219,11 +219,11 @@ ORDER BY t1.ArtistId
 
 -- * MIN -- En küçük değer -- String de destekler
 -- SELECT MIN(Total) AS minTutar FROM Invoice;
--- SELECT MIN(FirstName) FROM Customer;
+-- SELECT MIN(FirstName) FROM Customer;(A dan Z ye)
 
 -- * MAX -- En büyük değer -- String de destekler
 -- SELECT MAX(Total) AS maxTutar FROM Invoice;
--- SELECT MAX(FirstName) FROM Customer;
+-- SELECT MAX(FirstName) FROM Customer;(Z den A ya)
 
 -- * LENGTH -- Karakter Sayısı (Kayıt sayısı tek satıra düşürmez)
 -- SELECT LENGTH(BillingAddress) AS karakterSayisi FROM Invoice;
@@ -240,14 +240,14 @@ ORDER BY t1.ArtistId
 -- SELECT BillingCountry, MIN(Total) AS minimum FROM Invoice GROUP BY BillingCountry;  -- Ülkeye göre minimum fatura tutarı.
 -- SELECT BillingCountry, MIN(Total) AS minimum, MAX(Total) AS maximum FROM Invoice GROUP BY BillingCountry;  -- Ülkeye göre min/max fatura tutarı.
 /*
-SELECT BillingCountry, 
-	COUNT(InvoiceId) AS faturaSayisi, 
+SELECT BillingCountry, --ülkeye kesilen faturalarin
+	COUNT(InvoiceId) AS faturaSayisi, -- fatura sayisini
 	SUM(Total) AS toplam, 
 	MIN(Total) AS minimum, 
 	MAX(Total) AS maximum,
 	ROUND(AVG(Total), 2) AS ortalama
-FROM Invoice
-GROUP BY BillingCountry;
+FROM Invoice --faturalar tablosundan
+GROUP BY BillingCountry;--ülkeye göre grupla
 */
 
 /* INSERT & UPDATE & DELETE */
