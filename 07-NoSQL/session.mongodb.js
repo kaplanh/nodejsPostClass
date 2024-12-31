@@ -40,14 +40,19 @@ db.collName2.drop(); // Drop
 // !Documents (Records/Rows) ekleme
 
 // ?INSERT:
-//? Document-object kayit eklmek icin
+//? Document-object kayit eklemek icin
 //? tek bir kayit eklmek icin
 // db.coll.insertOne( { new_values } )
 // db.coll.insertMany( [ { new_values } ] )
 db.coll.insertOne({ firstName: "Test", lastName: "Test", age: 10 });
+db.coll.insertOne({
+    key1: "value1",
+    key2: "value2",
+    key3: { keyNested: "valueNested" },
+});
 //? birden fazla kayit eklmek icin birden fazla obje gönderewceksem []array icinde göndermeliyim
+// in array[]
 db.coll.insertMany([
-    // in array[]
     { firstName: "Test1", lastName: "Test1", age: 11 },
     { firstName: "Test2", lastName: "Test2", age: 12 },
     { firstName: "Test3", lastName: "Test3", age: 13 },
@@ -133,8 +138,8 @@ db.coll.find().skip(5).limit(5); //ilk 5 kayittan sonraki 5 kayidi getir
 // Sort (1:ASC, -1:DESC):
 db.coll.find().sort({ age: -1 }).limit(5); //yasa göre ters sirala ve ilk 5 i göster
 // Count:
-db.coll.count(); // kac kayit var 4 
-// veya 
+db.coll.count(); // kac kayit var 4
+// veya
 db.coll.find().count(); // kac kayit var 4
 db.coll.countDocuments(); // ShortHand find().count()
 db.coll.countDocuments({ firstName: "Test" });

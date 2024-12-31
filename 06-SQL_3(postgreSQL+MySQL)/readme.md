@@ -22,3 +22,7 @@
         -   Install DB: CommunityServer: https://dev.mysql.com/downloads/mysql/
         -   Install UI: Workbench: https://dev.mysql.com/downloads/workbench/
         -   MySQL start/stop/uninstall -> MacOS System Settings
+
+### drawsql
+
+-for ERD - https://drawsql.app/
