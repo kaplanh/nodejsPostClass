@@ -54,6 +54,11 @@ const PORT = process.env?.PORT || 8000;
 // );
 
 //? app.route('url'):
+// app.route('/')
+//     .get( (req, res) => res.send('get') )
+//     .post( (req, res) => res.send('post') )
+//     .put( (req, res) => res.send('put') )
+//     .delete( (req, res) => res.send('delete') )
 
 // app.route('/route')
 //     .get( (req, res) => res.send('get') )
@@ -75,7 +80,7 @@ app.get("/abc(x+)123", (req, res) => res.send("in 'abc(x+)123'")); // abcx123 or
 app.get("/abc*123", (req, res) => res.send("in 'abc*123'")); // abc123 or abc...123 // abc(ANY)123
 // ? express-urls supported regexp:
 app.get(/xyz/, (req, res) => res.send("regexp /xyz/")); // url contains = 'xyz' (no limit for subPaths) ,bu url xyz iceriyorsa
-app.get(/^\/xyz/, (req, res) => res.send("regexp /^/xyz/")); // url startswith = 'xyz', bu url xyz ile baslarsa 
+app.get(/^\/xyz/, (req, res) => res.send("regexp /^\/xyz/")); // url startswith = 'xyz', bu url xyz ile baslarsa  http://127.0.0.1:8000/xyza123/xyz burda 8000 port dan sonraki '/' da aldigi icin xyz ile baslayan derken 7xyz ile baslayan demeliyiz 
 app.get(/xyz$/, (req, res) => res.send("regexp /xyz$/")); // url endswith = 'xyz'
 
 
@@ -141,8 +146,8 @@ app.get(/xyz$/, (req, res) => res.send("regexp /xyz$/")); // url endswith = 'xyz
 // console.log( __dirname )
 // app.get('/file', (req, res) => res.sendFile(__dirname + '/app.js')) // FilePath must be realPath
 //? Redirect:yönlendirme
-// app.get('/google', (req, res) => res.redirect(301, 'https://www.google.com')) // 301 or 302
-// app.get('/redirect', (req, res) => res.redirect(302, '/thisPath')) // 301 or 302
+// app.get('/google', (req, res) => res.redirect(301, 'https://www.google.com')) // kendi sitemin disinda bir adrese yönlendireceksem 301
+// app.get('/redirect', (req, res) => res.redirect(302, '/thisPath')) // kendi sitemin icinde bir yönlendirme yapiyorsam 302 basina http yazmazsak kendi sitemiz icinde bir yönlendirme yapmis oluruz
 
 /* ------------------------------------------------------- */
 
